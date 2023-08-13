@@ -67,8 +67,25 @@ class _MyHomePageState extends State<MyHomePage> {
           // itemBuilder builds the widget tree for each row.
           itemBuilder: (BuildContext context, int index) {
             // A Text widget displays the name of the recipe.
-            // TODO: Add GestureDetector
-            return buildRecipeCard(Recipe.samples[index]);
+            // Introduces a GestureDetector widget, which, as the name implies, detects gestures.
+            return GestureDetector(
+              // Implements an onTap() function, which is the callback called when the widget is tapped.
+              onTap: () {
+                // The Navigator widget manages a stack of pages. Calling push() with a MaterialPageRoute will push a new Material page onto the stack. Section III, “Navigating Between Screens”, will cover navigation in a lot more detail.
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      // builder creates the destination page widget.
+                      // TODO: Replace return with return RecipeDetail()
+                      return Text('Detail page');
+                    },
+                  ),
+                );
+              },
+              // GestureDetector’s child widget defines the area where the gesture is active.
+              child: buildRecipeCard(Recipe.samples[index]),
+            );
           },
         ),
       ),
