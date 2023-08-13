@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipes/recipe.dart';
+import 'package:recipes/recipe_detail.dart';
 
 void main() {
   runApp(const RecipeApp());
@@ -77,8 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                     builder: (context) {
                       // builder creates the destination page widget.
-                      // TODO: Replace return with return RecipeDetail()
-                      return Text('Detail page');
+                      return RecipeDetail(recipe: Recipe.samples[index]);
                     },
                   ),
                 );
