@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'card1.dart';
 
 // Your new class extends StatefulWidget.
 class Home extends StatefulWidget {
@@ -18,8 +19,7 @@ class HomeState extends State<Home> {
   // you tap between the different tab bar items, it shows container widgets of
   // different colors. Soon, you’ll replace each of these with card widgets.
   static List<Widget> pages = <Widget>[
-    // TODO: Replace with Card1
-    Container(color: Colors.red),
+    const Card1(),
     // TODO: Replace with Card2
     Container(color: Colors.green),
     // TODO: Replace with Card3
