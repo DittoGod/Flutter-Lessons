@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// Imported the FooderlichTheme.
 import 'fooderlich_theme.dart';
 
 void main() {
@@ -12,10 +13,12 @@ class Fooderlich extends StatelessWidget {
   const Fooderlich({super.key});
   @override
   Widget build(BuildContext context) {
+    // Defined a variable that holds the theme.
     final theme = FooderlichTheme.dark();
     // TODO: Apply Home widget
     // The Fooderlich widget starts by composing a MaterialApp widget to give it a Material Design system look and feel. See https://material.io for more details about it.
     return MaterialApp(
+      // Added the MaterialApp widget’s theme property.
       theme: theme,
       title: 'Fooderlich',
       // The MaterialApp widget contains a Scaffold widget, which defines the
@@ -26,12 +29,14 @@ class Fooderlich extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             'Fooderlich',
+            // Added AppBar text styling.
             style: theme.textTheme.titleLarge,
           ),
         ),
         body: Center(
           child: Text(
             'Let\'s get cooking ! ',
+            // Finally, added body text styling.
             style: theme.textTheme.displayLarge,
           ),
         ),
