@@ -2,65 +2,68 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FooderlichTheme {
-  // 1
+  // Define a TextTheme called lightTextTheme, which uses the Google font Open
+  // Sans and has a predefined font size and weight. Most importantly, the color
+  // of the text is black.
   static TextTheme lightTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
+    bodyLarge: GoogleFonts.openSans(
       fontSize: 14.0,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    headline1: GoogleFonts.openSans(
+    displayLarge: GoogleFonts.openSans(
       fontSize: 32.0,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
-    headline2: GoogleFonts.openSans(
+    displayMedium: GoogleFonts.openSans(
       fontSize: 21.0,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
-    headline3: GoogleFonts.openSans(
+    displaySmall: GoogleFonts.openSans(
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
-    headline6: GoogleFonts.openSans(
+    titleLarge: GoogleFonts.openSans(
       fontSize: 20.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
   );
 
-  // 2
+  // Then it defines darkTextTheme. In this case, the text is white.
   static TextTheme darkTextTheme = TextTheme(
-    bodyText1: GoogleFonts.openSans(
+    bodyLarge: GoogleFonts.openSans(
       fontSize: 14.0,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    headline1: GoogleFonts.openSans(
+    displayLarge: GoogleFonts.openSans(
       fontSize: 32.0,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
-    headline2: GoogleFonts.openSans(
+    displayMedium: GoogleFonts.openSans(
       fontSize: 21.0,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
-    headline3: GoogleFonts.openSans(
+    displaySmall: GoogleFonts.openSans(
       fontSize: 16.0,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
-    headline6: GoogleFonts.openSans(
+    titleLarge: GoogleFonts.openSans(
       fontSize: 20.0,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
   );
 
-  // 3
+  // Next, it defines a static method, light, which returns the color tones for
+  // a light theme using the lightTextTheme you created in step 1.
   static ThemeData light() {
     return ThemeData(
       brightness: Brightness.light,
@@ -86,7 +89,8 @@ class FooderlichTheme {
     );
   }
 
-  // 4
+  // Finally, define a static method, dark, which returns the color tones for a
+  // dark theme using the darkTextTheme you created in step 2.
   static ThemeData dark() {
     return ThemeData(
       brightness: Brightness.dark,
