@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'card1.dart';
 import 'card2.dart';
+import 'card3.dart';
 
 // Your new class extends StatefulWidget.
 class Home extends StatefulWidget {
@@ -22,8 +23,7 @@ class HomeState extends State<Home> {
   static List<Widget> pages = <Widget>[
     const Card1(),
     const Card2(),
-    // TODO: Replace with Card3
-    Container(color: Colors.blue)
+    const Card3(),
   ];
 
   // This function handles tapped tab bar items. Here, you set the index of the
