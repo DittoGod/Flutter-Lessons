@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'fooderlich_theme.dart';
 import 'author_card.dart';
 
 class Card2 extends StatelessWidget {
@@ -31,7 +32,40 @@ class Card2 extends StatelessWidget {
               title: 'Smoothie Connoisseur',
               imageProvider: AssetImage('assets/author_katz.jpeg'),
             ),
-            // TODO: Add Positioned text
+            // With Expanded, you fill in the remaining available space.
+            Expanded(
+              // Apply a Stack widget to position the texts on top of each
+              // other.
+              child: Stack(
+                children: [
+                  // Position the first text 16 pixels from the bottom and 16
+                  // pixels from the right.
+                  Positioned(
+                    bottom: 16,
+                    right: 16,
+                    child: Text(
+                      'Recipe',
+                      style: FooderlichTheme.lightTextTheme.headline1,
+                    ),
+                  ),
+                  // Finally, position the second text 70 pixels from the bottom
+                  // and 16 pixels from the left. Also apply a RotatedBox
+                  // widget, which rotates the text clockwise three
+                  // quarterTurns. This makes it appear vertical.
+                  Positioned(
+                    bottom: 70,
+                    left: 16,
+                    child: RotatedBox(
+                      quarterTurns: 3,
+                      child: Text(
+                        'Smoothies',
+                        style: FooderlichTheme.lightTextTheme.headline1,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
