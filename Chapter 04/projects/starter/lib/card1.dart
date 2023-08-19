@@ -29,13 +29,13 @@ class Card1 extends StatelessWidget {
           children: [
             Text(
               category,
-              style: FooderlichTheme.darkTextTheme.bodyText1,
+              style: FooderlichTheme.darkTextTheme.bodyLarge,
             ),
             Positioned(
               top: 20,
               child: Text(
                 title,
-                style: FooderlichTheme.darkTextTheme.headline2,
+                style: FooderlichTheme.darkTextTheme.displayMedium,
               ),
             ),
             Positioned(
@@ -43,7 +43,7 @@ class Card1 extends StatelessWidget {
               right: 0,
               child: Text(
                 description,
-                style: FooderlichTheme.darkTextTheme.bodyText1,
+                style: FooderlichTheme.darkTextTheme.bodyLarge,
               ),
             ),
             Positioned(
@@ -51,7 +51,7 @@ class Card1 extends StatelessWidget {
               right: 0,
               child: Text(
                 chef,
-                style: FooderlichTheme.darkTextTheme.bodyText1,
+                style: FooderlichTheme.darkTextTheme.bodyLarge,
               ),
             )
           ],
