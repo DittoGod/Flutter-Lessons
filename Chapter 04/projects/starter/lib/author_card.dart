@@ -3,7 +3,7 @@ import 'fooderlich_theme.dart';
 
 import 'circle_image.dart';
 
-class AuthorCard extends StatelessWidget {
+class AuthorCard extends StatefulWidget {
   // 1
   final String authorName;
   final String title;
@@ -16,7 +16,12 @@ class AuthorCard extends StatelessWidget {
     this.imageProvider,
   });
 
-  // 2
+  @override
+  State<AuthorCard> createState() => _AuthorCardState();
+}
+
+class _AuthorCardState extends State<AuthorCard> {
+  bool _isFavorited = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +32,7 @@ class AuthorCard extends StatelessWidget {
           Row(
             children: [
               CircleImage(
-                imageProvider: imageProvider,
+                imageProvider: widget.imageProvider,
                 imageRadius: 28,
               ),
               const SizedBox(width: 8),
@@ -35,11 +40,11 @@ class AuthorCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    authorName,
+                    widget.authorName,
                     style: FooderlichTheme.lightTextTheme.displayMedium,
                   ),
                   Text(
-                    title,
+                    widget.title,
                     style: FooderlichTheme.lightTextTheme.displaySmall,
                   )
                 ],
@@ -47,12 +52,19 @@ class AuthorCard extends StatelessWidget {
             ],
           ),
           IconButton(
-            icon: const Icon(Icons.favorite_border),
+            // First, it checks if the user has favorited this recipe card. If
+            // true, it shows a filled heart. If false, it shows an outlined
+            // heart.
+            icon: Icon(_isFavorited ? Icons.favorite : Icons.favorite_border),
             iconSize: 30,
-            color: Colors.grey[400],
+            // It changes the color to red to give the app more life.
+            color: Colors.red[400],
             onPressed: () {
-              const snackBar = SnackBar(content: Text('Favorite Pressed'));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              // When the user presses the IconButton, it toggles the
+              // _isFavorited state via a call to setState().
+              setState(() {
+                _isFavorited = !_isFavorited;
+              });
             },
           ),
         ],
