@@ -25,7 +25,10 @@ class FriendPostListView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Create the Text widget header.
-          Text('Social Chefs !', style: Theme.of(context).textTheme.headline1),
+          Text(
+            'Social Chefs !',
+            style: Theme.of(context).textTheme.displayLarge,
+          ),
           // Apply a spacing of 16 points vertically.
           const SizedBox(height: 16),
           // Create ListView.separated with two IndexWidgetBuilder callbacks.
