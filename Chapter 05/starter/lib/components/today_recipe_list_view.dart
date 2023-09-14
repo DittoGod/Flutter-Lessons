@@ -26,20 +26,53 @@ class TodayRecipeListView extends StatelessWidget {
         children: [
           // In the column, add a Text. This is the header for the Recipes of
           // the Day.
-          Text('Recipes of the Day " ',
-              style: Theme.of(context).textTheme.headline1),
+          Text('Recipes of the Day',
+              style: Theme.of(context).textTheme.displayLarge),
           // Add a 16-point-tall SizedBox, to supply some padding.
           const SizedBox(height: 16),
           // Add a Container, 400 points tall, and set the background color to
           // grey. This container will hold your horizontal list view.
           Container(
             height: 400,
-            // TODO: Add ListView Here
-            color: Colors.grey,
+            // Change the color from grey to transparent.
+            color: Colors.transparent,
+            // Create ListView.separated. Remember, this widget creates two
+            // IndexedWidgetBuilders.
+            child: ListView.separated(
+              // Set the scroll direction to the horizontal axis.
+              scrollDirection: Axis.horizontal,
+              // Set the number of items in the list view.
+              itemCount: recipes.length,
+              // Create the itemBuilder callback, which will go through every
+              // item in the list.
+              itemBuilder: (context, index) {
+                // Get the recipe for the current index and build the card.
+                final recipe = recipes[index];
+                return buildCard(recipe);
+              },
+              // Create the separatorBuilder callback, which will go through
+              // every item in the list.
+              separatorBuilder: (context, index) {
+                // For every item, you create a SizedBox to space every item 16
+                // points apart.
+                return const SizedBox(width: 16);
+              },
+            ),
           ),
         ],
       ),
     );
   }
-  // TODO: Add buildCard() widget here
+
+  Widget buildCard(ExploreRecipe recipe) {
+    if (recipe.cardType == RecipeCardType.card1) {
+      return Card1(recipe: recipe);
+    } else if (recipe.cardType == RecipeCardType.card2) {
+      return Card2(recipe: recipe);
+    } else if (recipe.cardType == RecipeCardType.card3) {
+      return Card3(recipe: recipe);
+    } else {
+      throw Exception('This card doesn\'t exist yet');
+    }
+  }
 }
