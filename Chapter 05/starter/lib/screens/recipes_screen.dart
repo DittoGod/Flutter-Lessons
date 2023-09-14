@@ -18,9 +18,7 @@ class RecipesScreen extends StatelessWidget {
       builder: (context, AsyncSnapshot<List<SimpleRecipe>> snapshot) {
         // Check if the future is complete.
         if (snapshot.connectionState == ConnectionState.done) {
-          // TODO: Add RecipesGridView Here
-          // Add a placeholder text until you build RecipesGridView.
-          return const Center(child: Text('Recipes Screen'));
+          return RecipesGridView(recipes: snapshot.data ?? []);
         } else {
           // Show a circular loading indicator if the future isn’t complete yet.
           return const Center(child: CircularProgressIndicator());
