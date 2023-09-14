@@ -27,12 +27,7 @@ class ExploreScreen extends StatelessWidget {
           // todayRecipes to pass to the list view. Right now, you show a simple
           // text as a placeholder. You’ll build a TodayRecipeListView soon.
           final recipes = snapshot.data?.todayRecipes ?? [];
-          // TODO: Replace this with TodayRecipeListView
-          return Center(
-            child: Container(
-              child: const Text('Show TodayRecipeListView'),
-            ),
-          );
+          return TodayRecipeListView(recipes: recipes);
         } else {
           // The future is still loading, so you show a spinner to let the user
           // know something is happening.
