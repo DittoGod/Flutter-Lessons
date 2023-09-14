@@ -36,11 +36,7 @@ class ExploreScreen extends StatelessWidget {
               const SizedBox(height: 16),
               // Add a green placeholder container. You’ll create and add the
               // FriendPostListView later.
-              // TODO: Replace this with FriendPostListView
-              Container(
-                height: 400,
-                color: Colors.green,
-              ),
+              FriendPostListView(friendPosts: snapshot.data?.friendPosts ?? []),
             ],
           );
         } else {
