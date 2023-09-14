@@ -10,30 +10,43 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Display a placeholder text. You’ll replace this later.
-    // Within the widget’s build(), you create a FutureBuilder.
+    // This is the FutureBuilder from before. It runs an asynchronous task and
+    // lets you know the state of the future.
     return FutureBuilder(
-      // The FutureBuilder takes in a Future as a parameter. getExploreData()
-      // creates a future that will, in turn, return an ExploreData instance.
-      // That instance will contain two lists, todayRecipes and friendPosts.
+      // Use your mock service to call getExploreData(). This returns an
+      // ExploreData object future.
       future: mockService.getExploreData(),
-      // Within builder, you use snapshot to check the current state of the
-      // Future.
+      // Check the state of the future within the builder callback.
       builder: (context, AsyncSnapshot<ExploreData> snapshot) {
-        // Now, the Future is complete and you can extract the data to pass to
-        // your widget.
+        // Check if the future is complete.
         if (snapshot.connectionState == ConnectionState.done) {
-          // snapshot.data returns ExploreData, from which you extract
-          // todayRecipes to pass to the list view. Right now, you show a simple
-          // text as a placeholder. You’ll build a TodayRecipeListView soon.
-          final recipes = snapshot.data?.todayRecipes ?? [];
-          return TodayRecipeListView(recipes: recipes);
-        } else {
-          // The future is still loading, so you show a spinner to let the user
-          // know something is happening.
-          return const Center(
-            child: CircularProgressIndicator(),
+          // When the future is complete, return the primary ListView. This
+          // holds an explicit list of children. In this scenario, the primary
+          // ListView will hold the other two ListViews as children.
+          return ListView(
+            // Set the scroll direction to vertical, although that’s the default
+            // value.
+            scrollDirection: Axis.vertical,
+            children: [
+              // The first item in children is TodayRecipeListView. You pass in
+              // the list of todayRecipes from ExploreData.
+              TodayRecipeListView(recipes: snapshot.data?.todayRecipes ?? []),
+              // Add a 16-point vertical space so the lists aren’t too close to
+              // each other.
+              const SizedBox(height: 16),
+              // Add a green placeholder container. You’ll create and add the
+              // FriendPostListView later.
+              // TODO: Replace this with FriendPostListView
+              Container(
+                height: 400,
+                color: Colors.green,
+              ),
+            ],
           );
+        } else {
+          // If the future hasn’t finished loading yet, show a circular progress
+          // indicator.
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
