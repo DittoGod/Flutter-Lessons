@@ -25,7 +25,7 @@ class Fooderlich extends StatelessWidget {
           // ChangeNotifierProvider creates an instance of TabManager, which
           // listens to tab index changes and notifies its listeners.
           ChangeNotifierProvider(create: (context) => TabManager()),
-          // TODO: Add GroceryManager Provider
+          ChangeNotifierProvider(create: (context) => GroceryManager()),
         ],
         child: const Home(),
       ),
