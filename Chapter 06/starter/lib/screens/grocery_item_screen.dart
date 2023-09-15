@@ -108,7 +108,7 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            // TODO: Add name TextField
+            buildNameField(),
             // TODO: Add Importance selection
             // TODO: Add date picker
             // TODO: Add time picker
@@ -121,7 +121,42 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
     );
   }
 
-  // TODO: Add buildNameField()
+  Widget buildNameField() {
+    // Creates a Column to lay elements out vertically.
+    return Column(
+      // Aligns all widgets in the column to the left.
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Adds a Text that’s styled using GoogleFonts.
+        Text(
+          'Item Name',
+          style: GoogleFonts.lato(fontSize: 28.0),
+        ),
+        // Adds a TextField to enter the name of the item.
+        TextField(
+          // Sets the TextField’s TextEditingController.
+          controller: _nameController,
+          // Sets the cursor color.
+          cursorColor: _currentColor,
+          // Styles the text field using InputDecoration.
+          decoration: InputDecoration(
+            // Includes a hint to give users an example of what to write.
+            hintText: 'E.g. Apples, Banana, 1 Bag of salt',
+            // Customizes the text field’s border color.
+            enabledBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: _currentColor),
+            ),
+            border: UnderlineInputBorder(
+              borderSide: BorderSide(color: _currentColor),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
   // TODO: Add buildImportanceField()
 
