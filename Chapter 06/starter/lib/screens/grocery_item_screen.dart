@@ -112,7 +112,7 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
             buildImportanceField(),
             buildDateField(context),
             buildTimeField(context),
-            // TODO: Add color picker
+            buildColorPicker(context),
             // TODO: Add slider
             // TODO: Add Grocery Tile
           ],
@@ -300,7 +300,65 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
     );
   }
 
-  // TODO: Add buildColorPicker()
+  Widget buildColorPicker(BuildContext context) {
+    // Adds a Row widget to layout the color picker section in the horizontal
+    // direction.
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        // Creates a child Row and groups the following widgets:
+        // • A Container to display the selected color.
+        // • An 8-pixel-wide SizedBox.
+        // • A Text to display the color picker’s title.
+        Row(
+          children: [
+            Container(
+              height: 50.0,
+              width: 10.0,
+              color: _currentColor,
+            ),
+            const SizedBox(width: 8.0),
+            Text(
+              'Color',
+              style: GoogleFonts.lato(fontSize: 28.0),
+            ),
+          ],
+        ),
+        // Adds a TextButton.
+        TextButton(
+          child: const Text('Select'),
+          onPressed: () {
+            // Shows a pop-up dialog when the user taps the button.
+            showDialog(
+              context: context,
+              builder: (context) {
+                // Wraps BlockPicker inside AlertDialog.
+                return AlertDialog(
+                  content: BlockPicker(
+                    pickerColor: Colors.white,
+                    // Updates _currentColor when the user selects a color.
+                    onColorChanged: (color) {
+                      setState(() => _currentColor = color);
+                    },
+                  ),
+                  actions: [
+                    // Adds an action button in the dialog. When the user taps
+                    // Save, it dismisses the dialog.
+                    TextButton(
+                      child: const Text('Save'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
 
   // TODO: Add buildQuantityField()
 }
