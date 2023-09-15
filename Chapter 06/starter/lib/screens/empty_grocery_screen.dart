@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:fooderlich/models/models.dart';
+import '../models/models.dart';
 
 class EmptyGroceryScreen extends StatelessWidget {
   const EmptyGroceryScreen({super.key});
