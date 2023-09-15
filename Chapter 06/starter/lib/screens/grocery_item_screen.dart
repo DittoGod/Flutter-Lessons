@@ -112,8 +112,10 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
             buildImportanceField(),
             buildDateField(context),
             buildTimeField(context),
+            const SizedBox(height: 10.0),
             buildColorPicker(context),
-            // TODO: Add slider
+            const SizedBox(height: 10.0),
+            buildQuantityField(),
             // TODO: Add Grocery Tile
           ],
         ),
@@ -360,5 +362,52 @@ class GroceryItemScreenState extends State<GroceryItemScreen> {
     );
   }
 
-  // TODO: Add buildQuantityField()
+  Widget buildQuantityField() {
+    // Lay out your widgets vertically, using a Column.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Add a title and the quantity labels to the quantity section by
+        // creating a Row that contains two Texts. You use a SizedBox to
+        // separate the Texts.
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            Text(
+              'Quantity',
+              style: GoogleFonts.lato(fontSize: 28.0),
+            ),
+            const SizedBox(width: 16.0),
+            Text(
+              _currentSliderValue.toInt().toString(),
+              style: GoogleFonts.lato(fontSize: 18.0),
+            ),
+          ],
+        ),
+        // Add a Slider.
+        Slider(
+          // Set the active and inactive colors.
+          inactiveColor: _currentColor.withOpacity(0.5),
+          activeColor: _currentColor,
+          // Set the current slider value.
+          value: _currentSliderValue.toDouble(),
+          // Set the slider’s minimum and maximum value.
+          min: 0.0,
+          max: 100.0,
+          // Set how you want the slider to increment.
+          divisions: 100,
+          // Set the label above the slider. Here, you want to show the current
+          // value above the slider.
+          label: _currentSliderValue.toInt().toString(),
+          // Update _currentSliderValue when the value changes.
+          onChanged: (double value) {
+            setState(() {
+              _currentSliderValue = value.toInt();
+            });
+          },
+        ),
+      ],
+    );
+  }
 }
