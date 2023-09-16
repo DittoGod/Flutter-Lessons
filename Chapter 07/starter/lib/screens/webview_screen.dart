@@ -20,8 +20,8 @@ class WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
     super.initState();
+
     // Enable hybrid composition.
-    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams(
         allowsInlineMediaPlayback: true,
@@ -30,6 +30,7 @@ class WebViewScreenState extends State<WebViewScreen> {
     } else {
       params = const PlatformWebViewControllerCreationParams();
     }
+
     _controller = WebViewController.fromPlatformCreationParams(params);
 
     _controller = WebViewController()
@@ -57,6 +58,11 @@ class WebViewScreenState extends State<WebViewScreen> {
       (_controller.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
