@@ -32,7 +32,16 @@ class AppRouter {
     initialLocation: '/login',
     // Defines all the routes you use. You’ll add them later.
     routes: [
-      // TODO: Add Login Route
+      GoRoute(
+        // name names the route. If set, you must provide a unique string name;
+        // this can’t be empty.
+        name: 'login',
+        // path is this route’s path.
+        path: '/login',
+        // builder is this route’s page builder. It’s responsible for building
+        // your screen widget.
+        builder: (context, state) => const LoginScreen(),
+      ),
       // TODO: Add Onboarding Route
       // TODO: Add Home Route
     ],
