@@ -64,7 +64,32 @@ class AppRouter {
         },
         // Within GoRoute, you can have sub-routes. You’ll add to this later.
         routes: [
-          // TODO: Add Item Subroute
+          GoRoute(
+            name: 'item',
+            // Defines a subroute item with id as a parameter.
+            path: 'item/:id',
+            builder: (context, state) {
+              // Within the builder, it attempts to extract the itemId.
+              final itemId = state.pathParameters['id'] ?? '';
+              // Gets the GroceryItem object for the itemId.
+              final item = groceryManager.getGroceryItem(itemId);
+              // Returns the GroceryItemScreen and passes in the item. Note
+              // that if the item is null, the user is creating a new item.
+              return GroceryItemScreen(
+                originalItem: item,
+                onCreate: (item) {
+                  // If the user creates a new item, it adds the new item to
+                  // the grocery list.
+                  groceryManager.addItem(item);
+                },
+                onUpdate: (item) {
+                  // If the user updates an item, it updates the item in the
+                  // grocery list.
+                  groceryManager.updateItem(item);
+                },
+              );
+            },
+          ),
           // TODO: Add Profile Subroute
         ],
       ),
