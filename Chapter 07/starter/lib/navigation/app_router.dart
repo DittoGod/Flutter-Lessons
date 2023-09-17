@@ -87,7 +87,6 @@ class AppRouter {
       final loggedIn = appStateManager.isLoggedIn;
       // Checks to see if the user is at the login location.
       final loggingIn = state.matchedLocation == '/login';
-      print(state.name);
       // Redirects the user to log in if they haven’t yet.
       if (!loggedIn) return loggingIn ? null : '/login';
       // Since the user is already signed in, now you check to see if they’ve
