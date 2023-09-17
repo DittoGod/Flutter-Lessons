@@ -42,10 +42,13 @@ class AppRouter {
         // your screen widget.
         builder: (context, state) => const LoginScreen(),
       ),
-      // TODO: Add Onboarding Route
+      GoRoute(
+        name: 'onboarding',
+        path: '/onboarding',
+        builder: (context, state) => const OnboardingScreen(),
+      ),
       // TODO: Add Home Route
     ],
-
     errorPageBuilder: (context, state) {
       return MaterialPage(
         key: state.pageKey,
@@ -58,7 +61,28 @@ class AppRouter {
         ),
       );
     },
-
-    // TODO: Add Redirect Handler
+    redirect: (context, state) {
+      // Checks to see if the user is logged in.
+      final loggedIn = appStateManager.isLoggedIn;
+      // Checks to see if the user is at the login location.
+      final loggingIn = state.name == '/login';
+      // Redirects the user to log in if they haven’t yet.
+      if (!loggedIn) return loggingIn ? null : '/login';
+      // Since the user is already signed in, now you check to see if they’ve
+      // completed the onboarding guide.
+      final isOnboardingComplete = appStateManager.isOnboardingComplete;
+      // Checks to see if the user is at the onboarding location.
+      final onboarding = state.name == '/onboarding';
+      // Redirects the user to onboarding if they haven’t completed it yet.
+      if (!isOnboardingComplete) {
+        return onboarding ? null : '/onboarding';
+      }
+      // The user has signed in and completed onboarding. You redirect them to
+      // the home page, specifically the explore tab. You’ll add the home route
+      // in a bit.
+      if (loggingIn || onboarding) return '/${FooderlichTab.explore}';
+      // Returns null to stop redirecting.
+      return null;
+    },
   );
 }
