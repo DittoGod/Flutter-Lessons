@@ -55,7 +55,6 @@ class AppRouter {
         builder: (context, state) {
           // Gets the tab’s value from the GoRouterState params and converts it
           // into an integer.
-          print(int.tryParse(state.pathParameters['tab'] ?? '') ?? 0);
           final tab = int.tryParse(state.pathParameters['tab'] ?? '') ?? 0;
           // Passes the tab to the Home widget.
           return Home(
