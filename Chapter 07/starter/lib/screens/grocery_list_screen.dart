@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../components/grocery_tile.dart';
 import '../models/models.dart';
@@ -51,7 +52,18 @@ class GroceryListScreen extends StatelessWidget {
                 },
               ),
               onTap: () {
-                // TODO: Navigate to grocery item
+                // Grabs the itemId for that index when the user taps a
+                // specific index in the grocery list.
+                final itemId = manager.getItemId(index);
+                // Navigates from home’s To Buy tab to a specific item,
+                // specifying an itemId.
+                context.goNamed(
+                  'item',
+                  pathParameters: {
+                    'tab': '${FooderlichTab.toBuy}',
+                    'id': itemId,
+                  },
+                );
               },
             ),
           );
