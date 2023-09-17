@@ -33,7 +33,7 @@ class HomeState extends State<Home> {
       appBar: AppBar(
         title: Text(
           'Fooderlich',
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         actions: [
           profileButton(widget.currentTab),
