@@ -55,6 +55,7 @@ class AppRouter {
         builder: (context, state) {
           // Gets the tab’s value from the GoRouterState params and converts it
           // into an integer.
+          print(int.tryParse(state.pathParameters['tab'] ?? '') ?? 0);
           final tab = int.tryParse(state.pathParameters['tab'] ?? '') ?? 0;
           // Passes the tab to the Home widget.
           return Home(
@@ -85,14 +86,15 @@ class AppRouter {
       // Checks to see if the user is logged in.
       final loggedIn = appStateManager.isLoggedIn;
       // Checks to see if the user is at the login location.
-      final loggingIn = state.name == '/login';
+      final loggingIn = state.matchedLocation == '/login';
+      print(state.name);
       // Redirects the user to log in if they haven’t yet.
       if (!loggedIn) return loggingIn ? null : '/login';
       // Since the user is already signed in, now you check to see if they’ve
       // completed the onboarding guide.
       final isOnboardingComplete = appStateManager.isOnboardingComplete;
       // Checks to see if the user is at the onboarding location.
-      final onboarding = state.name == '/onboarding';
+      final onboarding = state.matchedLocation == '/onboarding';
       // Redirects the user to onboarding if they haven’t completed it yet.
       if (!isOnboardingComplete) {
         return onboarding ? null : '/onboarding';

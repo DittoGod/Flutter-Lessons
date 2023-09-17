@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
+import '../models/models.dart';
 import 'explore_screen.dart';
 import 'grocery_screen.dart';
 import 'recipes_screen.dart';
@@ -40,7 +43,15 @@ class HomeState extends State<Home> {
         selectedItemColor: Theme.of(context).textSelectionTheme.selectionColor,
         currentIndex: widget.currentTab,
         onTap: (index) {
-          // TODO: Update user's selected tab
+          // Updates the current tab the user selected.
+          Provider.of<AppStateManager>(context, listen: false).goToTab(index);
+          // Uses GoRouter to navigate to the selected tab.
+          context.goNamed(
+            'home',
+            pathParameters: {
+              'tab': '$index',
+            },
+          );
         },
         items: const [
           BottomNavigationBarItem(
