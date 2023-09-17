@@ -47,7 +47,27 @@ class AppRouter {
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
       ),
-      // TODO: Add Home Route
+      GoRoute(
+        name: 'home',
+        // Defines a path with the tab parameter. The notion is a colon
+        // followed by the parameter name.
+        path: '/:tab',
+        builder: (context, state) {
+          // Gets the tab’s value from the GoRouterState params and converts it
+          // into an integer.
+          final tab = int.tryParse(state.pathParameters['tab'] ?? '') ?? 0;
+          // Passes the tab to the Home widget.
+          return Home(
+            key: state.pageKey,
+            currentTab: tab,
+          );
+        },
+        // Within GoRoute, you can have sub-routes. You’ll add to this later.
+        routes: [
+          // TODO: Add Item Subroute
+          // TODO: Add Profile Subroute
+        ],
+      ),
     ],
     errorPageBuilder: (context, state) {
       return MaterialPage(
