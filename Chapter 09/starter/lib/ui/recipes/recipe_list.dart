@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-// TODO: Add imports
+import 'package:shared_preferences/shared_preferences.dart';
+import '../widgets/custom_dropdown.dart';
+import '../colors.dart';
 
 class RecipeList extends StatefulWidget {
   const RecipeList({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class RecipeList extends StatefulWidget {
 }
 
 class _RecipeListState extends State<RecipeList> {
-  // TODO: Add key
+  static const String prefSearchKey = 'previousSearches';
   late TextEditingController searchTextController;
   final ScrollController _scrollController = ScrollController();
   List currentSearchList = [];
@@ -22,7 +24,7 @@ class _RecipeListState extends State<RecipeList> {
   bool hasMore = false;
   bool loading = false;
   bool inErrorState = false;
-  // TODO: Add searches array
+  List<String> previousSearches = <String>[];
   // TODO: Add _currentRecipes1
 
   @override
@@ -32,25 +34,24 @@ class _RecipeListState extends State<RecipeList> {
 
     // TODO: Call getPreviousSearches
     searchTextController = TextEditingController(text: '');
-    _scrollController
-      .addListener(() {
-        final triggerFetchMoreSize =
-            0.7 * _scrollController.position.maxScrollExtent;
+    _scrollController.addListener(() {
+      final triggerFetchMoreSize =
+          0.7 * _scrollController.position.maxScrollExtent;
 
-        if (_scrollController.position.pixels > triggerFetchMoreSize) {
-          if (hasMore &&
-              currentEndPosition < currentCount &&
-              !loading &&
-              !inErrorState) {
-            setState(() {
-              loading = true;
-              currentStartPosition = currentEndPosition;
-              currentEndPosition =
-                  min(currentStartPosition + pageCount, currentCount);
-            });
-          }
+      if (_scrollController.position.pixels > triggerFetchMoreSize) {
+        if (hasMore &&
+            currentEndPosition < currentCount &&
+            !loading &&
+            !inErrorState) {
+          setState(() {
+            loading = true;
+            currentStartPosition = currentEndPosition;
+            currentEndPosition =
+                min(currentStartPosition + pageCount, currentCount);
+          });
         }
-      });
+      }
+    });
   }
 
   // TODO: Add loadRecipes
@@ -106,9 +107,11 @@ class _RecipeListState extends State<RecipeList> {
                       autofocus: false,
                       controller: searchTextController,
                       onChanged: (query) => {
-                        if (query.length >= 3) {
+                        if (query.length >= 3)
+                          {
                             // Rebuild list
-                            setState(() {
+                            setState(
+                              () {
                                 currentSearchList.clear();
                                 currentCount = 0;
                                 currentEndPosition = pageCount;
