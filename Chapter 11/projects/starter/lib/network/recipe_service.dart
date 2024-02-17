@@ -24,5 +24,22 @@ class RecipeService {
       log(response.body);
     }
   }
-// TODO: Add getRecipes
+
+  // Create a new method, getRecipes(), with the parameters query, from and to.
+  // These let you get specific pages from the complete query. from starts at 0
+  // and to is calculated by adding the from index to your page size. You use
+  // type Future<dynamic> for this method because you don‘t know which data type
+  // it will return or when it will finish. async signals that this method runs
+  // asynchronously.
+  Future<dynamic> getRecipes(String query, int from, int to) async {
+    // Use final to create a non-changing variable. You use await to tell the
+    // app to wait until getData() returns its result. Look closely at getData()
+    // and note that you’re creating the API URL with the variables passed in
+    // (plus the IDs previously created in the Edamam dashboard).
+    final recipeData = await getData(
+      '$apiUrl?app_id=$apiId&app_key=$apiKey&q=$query&from=$from&to=$to',
+    );
+    // return the data retrieved from the API.
+    return recipeData;
+  }
 }
