@@ -42,25 +42,24 @@ class _RecipeListState extends State<RecipeList> {
     loadRecipes();
     getPreviousSearches();
     searchTextController = TextEditingController(text: '');
-    _scrollController
-      .addListener(() {
-        final triggerFetchMoreSize =
-            0.7 * _scrollController.position.maxScrollExtent;
+    _scrollController.addListener(() {
+      final triggerFetchMoreSize =
+          0.7 * _scrollController.position.maxScrollExtent;
 
-        if (_scrollController.position.pixels > triggerFetchMoreSize) {
-          if (hasMore &&
-              currentEndPosition < currentCount &&
-              !loading &&
-              !inErrorState) {
-            setState(() {
-              loading = true;
-              currentStartPosition = currentEndPosition;
-              currentEndPosition =
-                  min(currentStartPosition + pageCount, currentCount);
-            });
-          }
+      if (_scrollController.position.pixels > triggerFetchMoreSize) {
+        if (hasMore &&
+            currentEndPosition < currentCount &&
+            !loading &&
+            !inErrorState) {
+          setState(() {
+            loading = true;
+            currentStartPosition = currentEndPosition;
+            currentEndPosition =
+                min(currentStartPosition + pageCount, currentCount);
+          });
         }
-      });
+      }
+    });
   }
 
   // TODO: Add getRecipeData() here
@@ -222,8 +221,7 @@ class _RecipeListState extends State<RecipeList> {
           },
         ));
       },
-      // TODO: Replace with recipeCard
-      child: recipeStringCard(recipe.image, recipe.label),
+      child: recipeCard(recipe),
     );
   }
 }
