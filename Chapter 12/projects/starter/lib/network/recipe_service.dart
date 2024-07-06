@@ -1,9 +1,13 @@
 // This adds the Chopper package and your models.
+import 'dart:async';
+
 import 'package:chopper/chopper.dart';
 import 'recipe_model.dart';
 import 'model_response.dart';
 import 'model_converter.dart';
 import 'env.dart';
+
+part 'recipe_service.chopper.dart';
 
 // Here is where you re-enter your API Key and ID.
 const String apiKey = Env.apiKey;
@@ -43,7 +47,7 @@ abstract class RecipeService extends ChopperService {
     // Create a ChopperClient instance.
     final client = ChopperClient(
       // Pass in a base URL using the apiUrl constant.
-      baseUrl: apiUrl,
+      baseUrl: Uri.parse(apiUrl),
       // Pass in two interceptors. _addQuery() adds your key and ID to the
       // query. HttpLoggingInterceptor is part of Chopper and logs all calls.
       // It’s handy while you’re developing to see traffic between the app and

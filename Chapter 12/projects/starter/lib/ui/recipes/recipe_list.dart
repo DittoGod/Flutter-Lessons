@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import '../widgets/custom_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:chopper/chopper.dart';
+import '../../network/model_response.dart';
+import 'dart:collection';
 import '../../network/recipe_model.dart';
 import '../../network/recipe_service.dart';
 import '../recipe_card.dart';
@@ -39,32 +39,24 @@ class _RecipeListState extends State<RecipeList> {
     getPreviousSearches();
 
     searchTextController = TextEditingController(text: '');
-    _scrollController
-      .addListener(() {
-        final triggerFetchMoreSize =
-            0.7 * _scrollController.position.maxScrollExtent;
+    _scrollController.addListener(() {
+      final triggerFetchMoreSize =
+          0.7 * _scrollController.position.maxScrollExtent;
 
-        if (_scrollController.position.pixels > triggerFetchMoreSize) {
-          if (hasMore &&
-              currentEndPosition < currentCount &&
-              !loading &&
-              !inErrorState) {
-            setState(() {
-              loading = true;
-              currentStartPosition = currentEndPosition;
-              currentEndPosition =
-                  min(currentStartPosition + pageCount, currentCount);
-            });
-          }
+      if (_scrollController.position.pixels > triggerFetchMoreSize) {
+        if (hasMore &&
+            currentEndPosition < currentCount &&
+            !loading &&
+            !inErrorState) {
+          setState(() {
+            loading = true;
+            currentStartPosition = currentEndPosition;
+            currentEndPosition =
+                min(currentStartPosition + pageCount, currentCount);
+          });
         }
-      });
-  }
-
-  // TODO: Delete getRecipeData()
-  Future<APIRecipeQuery> getRecipeData(String query, int from, int to) async {
-    final recipeJson = await RecipeService().getRecipes(query, from, to);
-    final recipeMap = json.decode(recipeJson);
-    return APIRecipeQuery.fromJson(recipeMap);
+      }
+    });
   }
 
   @override
@@ -196,11 +188,11 @@ class _RecipeListState extends State<RecipeList> {
     if (searchTextController.text.length < 3) {
       return Container();
     }
-    // TODO: change with new response
-    return FutureBuilder<APIRecipeQuery>(
-      // TODO: change with new RecipeService
-      future: getRecipeData(searchTextController.text.trim(),
-          currentStartPosition, currentEndPosition),
+    return FutureBuilder<Response<Result<APIRecipeQuery>>>(
+      future: RecipeService.create().queryRecipes(
+          searchTextController.text.trim(),
+          currentStartPosition,
+          currentEndPosition),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -208,14 +200,42 @@ class _RecipeListState extends State<RecipeList> {
               child: Text(
                 snapshot.error.toString(),
                 textAlign: TextAlign.center,
-                textScaleFactor: 1.3,
+                textScaler: const TextScaler.linear(1.3),
               ),
             );
           }
 
           loading = false;
-          // TODO: change with new snapshot
-          final query = snapshot.data;
+          // Check to see if the call was successful.
+          if (false == snapshot.data?.isSuccessful) {
+            var errorMessage = 'Problems getting data';
+            // Check for an error map and extract the message to show.
+            if (snapshot.data?.error != null &&
+                snapshot.data?.error is LinkedHashMap) {
+              final map = snapshot.data?.error as LinkedHashMap;
+              errorMessage = map['message'];
+            }
+            return Center(
+              child: Text(
+                errorMessage,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 18.0),
+              ),
+            );
+          }
+          // snapshot.data is now a Response and not a string anymore. The body
+          // field is either the Success or Error that you defined above.
+          // Extract the value of body into result.
+          final result = snapshot.data?.body;
+          if (result == null || result is Error) {
+            // Hit an error
+            inErrorState = true;
+            return _buildRecipeList(context, currentSearchList);
+          }
+          // If result is an error, return the current list of recipes.
+          final query = (result as Success).value;
+          // Since result passed the error check, cast it as Success and extract
+          // its value into query.
           inErrorState = false;
           if (query != null) {
             currentCount = query.count;
