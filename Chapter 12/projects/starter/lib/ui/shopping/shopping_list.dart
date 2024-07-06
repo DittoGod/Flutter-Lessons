@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ShoppingList extends StatefulWidget {
-  const ShoppingList({Key? key}) : super(key: key);
+  const ShoppingList({super.key});
 
   // TODO 1
   @override

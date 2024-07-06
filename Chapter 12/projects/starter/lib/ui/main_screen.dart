@@ -9,7 +9,7 @@ import 'shopping/shopping_list.dart';
 import 'package:flutter/material.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State createState() => _MainScreenState();
