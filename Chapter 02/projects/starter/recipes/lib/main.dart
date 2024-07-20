@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const RecipesApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class RecipesApp extends StatelessWidget {
+  const RecipesApp({super.key});
 
-  // This widget is the root of your application.
+  // A widget's build() method is the entry point fo composing together other
+  // widgets to make a new widget. The @override annotation tells the Dart
+  // analyzer that this method is supposed to replace the default from
+  // StatelessWidget.
   @override
   Widget build(BuildContext context) {
+    // A theme determines visual aspects like color. The default ThemeData will
+    // show the standard Material defaults.
+    final ThemeData theme = ThemeData();
+    // MaterialApp uses Material Design and is the widget that will be included
+    // in RecipesApp.
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+      // The Title of the app is a description that the device uses to identify
+      // the app. The UI won't display this.
+      title: 'Recipe Calculator',
+      // By copying the theme and replacing the color scheme with a custom one
+      // you are changing the app's colors. Here, by using the special fromSeed
+      // constructor, you are generating shades and tones that ThemeData uses to
+      // to style widgets following material design specifications.
+      theme: theme.copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.greenAccent,
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // This stll uses the same MyHomePage widget as before, but now, I've
+      // updated the title and displayed it on the device.
+      home: const MyHomePage(title: 'Recipe Calculator'),
     );
   }
 }
