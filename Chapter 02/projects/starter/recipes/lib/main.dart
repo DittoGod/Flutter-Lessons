@@ -72,15 +72,38 @@ class _MyHomePageState extends State<MyHomePage> {
       // operating system interfaces such as the notch or interactive areas like
       // the Home Indicator at the bottom of some iOS screens.
       body: SafeArea(
-        // 4
+        // Builds a list using ListView.
         child: ListView.builder(
+          // itemCount determines the number of rows the list has. In this case,
+          // length is the number of objects on the Recipe.samples list.
           itemCount: Recipe.samples.length,
+          // itemBuilder build the widget tree for each row.
           itemBuilder: (BuildContext context, int index) {
-            // 7
-            // TODO: Update to return Recipe card.
-            return Text(Recipe.samples[index].label);
+            // A text widget displays the name of the recipe.
+            // TODO: Add GestureDetector.
+            return buildRecipeCard(Recipe.samples[index]);
           },
         ),
+      ),
+    );
+  }
+
+  Widget buildRecipeCard(Recipe recipe) {
+    // You return a Card from buildRecipeCard().
+    return Card(
+      // The Card's child property is a Column. A Column is a widget that
+      // defines a vertical layout.
+      child: Column(
+        // The Column has two children.
+        children: <Widget>[
+          // The first child is an Image widget. AssetImage states that the
+          // image is fetched from the local asset bundle defined in
+          // pubspec.yaml.
+          Image(image: AssetImage(recipe.imageUrl)),
+          // A Text widget is the second child. It will contain the recipe.label
+          // value
+          Text(recipe.label),
+        ],
       ),
     );
   }
