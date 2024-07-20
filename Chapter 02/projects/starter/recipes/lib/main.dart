@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:recipes/recipe.dart';
 
 void main() {
-  runApp(const RecipeApp());
+  runApp(const MyApp());
 }
 
-class RecipeApp extends StatelessWidget {
-  const RecipeApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  // A widget’s build() method is the entry point for composing together other widgets to make a new widget. The @override annotation tells the Dart analyzer that this method is supposed to replace the default method from StatelessWidget.
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // A theme determines visual aspects like color. The default ThemeData will show the standard Material defaults.
-    final ThemeData theme = ThemeData();
-    // MaterialApp uses Material Design and is the widget that will be included in RecipeApp.
     return MaterialApp(
-      // The title of the app is a description that the device uses to identify the app. The UI won’t display this.
-      title: 'Recipe Calculator',
-      // By copying the theme and replacing the color scheme with an updated copy lets you change the app’s colors. Here, the primary color is Colors.grey and the secondary color is Colors.black.
-      theme: theme.copyWith(
-        colorScheme: theme.colorScheme.copyWith(
-          primary: Colors.grey,
-          secondary: Colors.black,
-        ),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a purple toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
+        // Notice that the counter didn't reset back to zero; the application
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
-      // This still uses the same MyHomePage widget as before, but now, you’ve updated the title and displayed it on the device.
-      home: const MyHomePage(title: 'Recipe Calculator'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -49,61 +55,71 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    // A Scaffold provides the high-level structure for a screen. In this case, you’re using two properties.
-    return Scaffold(
-      // AppBar gets a title property by using a Text widget that has a title passed in from home: MyHomePage(title: 'Recipe Calculator') in the previous step.
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      // body has SafeArea, which keeps the app from getting too close to the operating system interfaces such as the notch or interactive areas like the Home Indicator at the bottom of some iOS screens.
-      body: SafeArea(
-        // SafeArea has a child widget, which is an empty Container widget.
-        // Builds a list using ListView.
-        child: ListView.builder(
-          // itemCount determines the number of rows the list has. In this case, length is the number of objects in the Recipe.samples list.
-          itemCount: Recipe.samples.length,
-          // itemBuilder builds the widget tree for each row.
-          itemBuilder: (BuildContext context, int index) {
-            // A Text widget displays the name of the recipe.
-            // TODO: Add GestureDetector
-            return buildRecipeCard(Recipe.samples[index]);
-          },
-        ),
-      ),
-    );
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+    });
   }
 
-  Widget buildRecipeCard(Recipe recipe) {
-    return Card(
-      // A card’s elevation determines how high off the screen the card is, affecting its shadow.
-      elevation: 2.0,
-      // shape handles the shape of the card. This code defines a rounded rectangle with a 10.0 corner radius.
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      // Padding insets its child’s contents by the specified padding value.
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        // The padding child is still the same vertical Column with the image and text.
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      appBar: AppBar(
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        title: Text(widget.title),
+      ),
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
         child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          //
+          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
+          // action in the IDE, or press "p" in the console), to see the
+          // wireframe for each widget.
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: AssetImage(recipe.imageUrl)),
-            // Between the image and text is a SizedBox. This is a blank view with a fixed size.
-            const SizedBox(
-              height: 14.0,
+            const Text(
+              'You have pushed the button this many times:',
             ),
-            // You can customize Text widgets with a style object. In this case, you’ve specified a Palatino font with a size of 20.0 and a bold weight of w700.
             Text(
-              recipe.label,
-              style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Palatino',
-              ),
-            )
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
