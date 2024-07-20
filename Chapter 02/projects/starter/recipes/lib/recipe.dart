@@ -20,15 +20,15 @@ class Recipe {
     ),
     Recipe(
       'Grilled Cheese',
-      'assets/3187380632_5056651a19_b.jpg',
+      'assets/3187380632_5056654a19_b.jpg',
     ),
     Recipe(
       'Chocolate Chip Cookies',
-      'assets/51992102771_b92f4cc00a_b.jpg',
+      'assets/15992102771_b92f4cc00a_b.jpg',
     ),
     Recipe(
       'Taco Salad',
-      'assets/8533381643_a31a99e8at_c.jpg',
+      'assets/8533381643_a31a99e8a6_c.jpg',
     ),
     Recipe(
       'Hawaiian Pizza',
