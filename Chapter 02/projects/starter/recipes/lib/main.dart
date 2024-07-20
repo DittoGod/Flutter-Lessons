@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'recipe.dart';
 
 void main() {
   runApp(const RecipesApp());
@@ -71,9 +72,15 @@ class _MyHomePageState extends State<MyHomePage> {
       // operating system interfaces such as the notch or interactive areas like
       // the Home Indicator at the bottom of some iOS screens.
       body: SafeArea(
-        // TODO: Replace child: Container()
-        // SafeArea has a child widget, which is an empty Container widget.
-        child: Container(),
+        // 4
+        child: ListView.builder(
+          itemCount: Recipe.samples.length,
+          itemBuilder: (BuildContext context, int index) {
+            // 7
+            // TODO: Update to return Recipe card.
+            return Text(Recipe.samples[index].label);
+          },
+        ),
       ),
     );
   }
