@@ -51,7 +51,26 @@ class _RecipeDetailState extends State<RecipeDetail> {
               widget.recipe.label,
               style: const TextStyle(fontSize: 18.0),
             ),
-            // TODO: Add Expand
+            // An Expanded widget, which expands to fill the space in a Column.
+            // This way, the ingredient list will take up the space not filled
+            // by the other widgets.
+            Expanded(
+              // A ListView, with one row per ingredient.
+              child: ListView.builder(
+                padding: const EdgeInsets.all(7.0),
+                itemCount: widget.recipe.ingredients.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final ingredient = widget.recipe.ingredients[index];
+                  // A Text widget that uses string interpolation to populate a
+                  // string with runtime values. Use the expression ${expression}
+                  // syntax inside the string literal to denote these.
+                  // TODO: Add ingredient.quantity
+                  return Text(
+                    '${ingredient.quantity} ${ingredient.measure} ${ingredient.name}',
+                  );
+                },
+              ),
+            ),
 
             // TODO: Add Slider() here
           ],
