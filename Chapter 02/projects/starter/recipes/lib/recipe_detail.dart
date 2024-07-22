@@ -5,9 +5,9 @@ class RecipeDetail extends StatefulWidget {
   final Recipe recipe;
 
   const RecipeDetail({
-    Key? key,
+    super.key,
     required this.recipe,
-  }) : super(key: key);
+  });
 
   @override
   State<RecipeDetail> createState() {
@@ -16,7 +16,7 @@ class RecipeDetail extends StatefulWidget {
 }
 
 class _RecipeDetailState extends State<RecipeDetail> {
-  // TODO: Add _sliderVal here
+  int _sliderVal = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,34 @@ class _RecipeDetailState extends State<RecipeDetail> {
               ),
             ),
 
-            // TODO: Add Slider() here
+            Slider(
+              // Use min, max and divisions to define how the Slider moves. In
+              // this case, it moves between the values of 1 and 10, with ten
+              // discreet stops. That is, it can only have the values 1, 2, 3,
+              // 4, 5, 6, 7, 8, 9 or 10.
+              min: 1,
+              max: 10,
+              divisions: 9,
+              // label updates as the _sliderVal changes and displays a scaled
+              // number of servings.
+              label: '${_sliderVal * widget.recipe.servings} servings',
+              // The Slider works in double values, so this converts the int
+              // variable.
+              value: _sliderVal.toDouble(),
+              // Conversely, when the Slider changes, this uses round() to
+              // convert the double Slider value to an int, then saves it in
+              // _sliderVal.
+              onChanged: (newValue) {
+                setState(() {
+                  _sliderVal = newValue.round();
+                });
+              },
+              // This sets the Slider's colours to something more "on brand".
+              // The activeColor is the section between the minimum value and
+              // the thumb, and the inactiveColor represents the rest.
+              activeColor: Colors.green,
+              inactiveColor: Colors.black,
+            ),
           ],
         ),
       ),
