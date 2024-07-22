@@ -64,9 +64,10 @@ class _RecipeDetailState extends State<RecipeDetail> {
                   // A Text widget that uses string interpolation to populate a
                   // string with runtime values. Use the expression ${expression}
                   // syntax inside the string literal to denote these.
-                  // TODO: Add ingredient.quantity
                   return Text(
-                    '${ingredient.quantity} ${ingredient.measure} ${ingredient.name}',
+                    '${ingredient.quantity * _sliderVal} '
+                    '${ingredient.measure} '
+                    '${ingredient.name}',
                   );
                 },
               ),
