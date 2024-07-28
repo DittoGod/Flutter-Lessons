@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
-// Imported the FooderlichTheme.
-import 'fooderlich_theme.dart';
-import 'home.dart';
 
 void main() {
-  // Everything in Flutter starts with a widget. runApp() takes in the root
-  // widget Fooderlich.
-  runApp(const Fooderlich());
+  // 1
+  runApp(const Yummy());
 }
 
-class Fooderlich extends StatelessWidget {
-  // Every stateless widget must override the build() method.
-  const Fooderlich({super.key});
+class Yummy extends StatelessWidget {
+  // TODO: Setup default theme
+
+  // 2
+  const Yummy({super.key});
+
+  // TODO: Add changeTheme above here
+
   @override
   Widget build(BuildContext context) {
-    // Defined a variable that holds the theme.
-    final theme = FooderlichTheme.dark();
-    // TODO: Apply Home widget
-    // The Fooderlich widget starts by composing a MaterialApp widget to give it a Material Design system look and feel. See https://material.io for more details about it.
+    const appTitle = 'Yummy';
+
+    // TODO: Setup default theme
+
+    //3
     return MaterialApp(
-      theme: theme,
-      title: 'Fooderlich',
-      home: const Home(),
+      title: appTitle,
+      //debugShowCheckedModeBanner: false, // Uncomment to remove Debug banner
+
+      // TODO: Add theme
+
+      // TODO: Apply Home widget
+
+      // 4
+      home: Scaffold(
+        appBar: AppBar(
+          // TODO: Add action buttons
+          elevation: 4.0,
+          title: const Text(
+            appTitle,
+            style: TextStyle(fontSize: 24.0),
+          ),
+        ),
+        body: const Center(
+          child: Text(
+            'You Hungry?😋',
+            style: TextStyle(fontSize: 30.0),
+          ),
+        ),
+      ),
     );
   }
 }
