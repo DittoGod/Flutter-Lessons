@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 enum ColorSelection {
-  // 1
+  // Structured colour options. The name listed "deepPurple" is what will be
+  // displayed.
   deepPurple('Deep Purple', Colors.deepPurple),
   purple('Purple', Colors.purple),
   indigo('Indigo', Colors.indigo),
@@ -13,7 +14,7 @@ enum ColorSelection {
   deepOrange('Deep Orange', Colors.deepOrange),
   pink('Pink', Colors.pink);
 
-  // 2
+  // Each has a label and a colour object.
   const ColorSelection(
     this.label,
     this.color,

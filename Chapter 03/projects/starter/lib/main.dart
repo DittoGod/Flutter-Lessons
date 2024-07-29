@@ -1,17 +1,43 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
 
 void main() {
-  // 1
+  // Widget Initialisation: Every journey with Flutter commences with a widget.
+  // The runApp() function initialises the app by accepting the root widget, in
+  // this case an instance of Yummy.
   runApp(const Yummy());
 }
 
-class Yummy extends StatelessWidget {
-  // TODO: Setup default theme
+class Yummy extends StatefulWidget {
 
-  // 2
+
   const Yummy({super.key});
 
-  // TODO: Add changeTheme above here
+  @override
+  State<Yummy> createState() => _YummyState();
+}
+
+class _YummyState extends State<Yummy> {
+  // Manual theme to toggle
+  ThemeMode themeMode = ThemeMode.light;
+
+  ColorSelection colorSelected = ColorSelection.pink;
+
+  void changeTheme(bool useLightMode) {
+    setState(() {
+      // Update theme mode based on user selection.
+      themeMode = useLightMode
+          ? ThemeMode.light
+          : ThemeMode.dark;
+    });
+  }
+
+  void changeColour(int value) {
+    setState(() {
+      // Update theme colour based on user selection.
+      colorSelected = ColorSelection.values[value];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,16 +45,28 @@ class Yummy extends StatelessWidget {
 
     // TODO: Setup default theme
 
-    //3
+    // Every Widget starts by composing a MaterialApp widget to give it a
+    // Material Design system look and feel.
     return MaterialApp(
       title: appTitle,
       //debugShowCheckedModeBanner: false, // Uncomment to remove Debug banner
 
-      // TODO: Add theme
+      themeMode: themeMode,
+      theme: ThemeData(
+        colorSchemeSeed: colorSelected.color,
+        useMaterial3: true,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        colorSchemeSeed: colorSelected.color,
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
 
       // TODO: Apply Home widget
 
-      // 4
+      // Scaffold defines the app's visual structure, containing an AppBar and a
+      // body for starts.
       home: Scaffold(
         appBar: AppBar(
           // TODO: Add action buttons

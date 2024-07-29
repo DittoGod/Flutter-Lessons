@@ -1,6 +1,6 @@
-# Yummy
+# yummy
 
-A new Flutter project.
+A Food App
 
 ## Getting Started
 
