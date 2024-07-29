@@ -21,7 +21,7 @@ class _YummyState extends State<Yummy> {
   // Manual theme to toggle
   ThemeMode themeMode = ThemeMode.light;
 
-  ColorSelection colorSelected = ColorSelection.pink;
+  ColourSelection colorSelected = ColourSelection.pink;
 
   void changeTheme(bool useLightMode) {
     setState(() {
@@ -35,7 +35,7 @@ class _YummyState extends State<Yummy> {
   void changeColour(int value) {
     setState(() {
       // Update theme colour based on user selection.
-      colorSelected = ColorSelection.values[value];
+      colorSelected = ColourSelection.values[value];
     });
   }
 
