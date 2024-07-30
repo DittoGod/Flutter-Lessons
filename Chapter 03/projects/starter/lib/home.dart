@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yummy/components/theme_button.dart';
 import 'package:yummy/components/colour_button.dart';
+import 'package:yummy/components/category_card.dart';
+import 'package:yummy/models/food_category.dart';
 import 'package:yummy/constants.dart';
 
 class Home extends StatefulWidget {
@@ -43,8 +45,18 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      // TODO: Replace with Category Card
-      Container(color: Colors.red),
+      // Center widget ensures the card is laid out on the page.
+      Center(
+        // Applies a maximum width of 300 pixels to the card widget.
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 300),
+          // Set CategoryCard widget as the child, and pass the first mock
+          // category to be displayed.
+          child: CategoryCard(
+            category: categories[0],
+          ),
+        ),
+      ),
       // TODO: Replace with Post Card.
       Container(color: Colors.green),
       // TODO: Replace with Restaurant Landscape Card
