@@ -20,9 +20,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // TODO: Track current Tab
+  int tab = 0;
 
-  // TODO: Define TabBar destinations
+  List<NavigationDestination> appBarDestinations = const [
+    NavigationDestination(
+      icon: Icon(Icons.credit_card),
+      label: 'Category',
+      selectedIcon: Icon(Icons.credit_card),
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.credit_card),
+      label: 'Post',
+      selectedIcon: Icon(Icons.credit_card),
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.credit_card),
+      label: 'Restaurant',
+      selectedIcon: Icon(Icons.credit_card),
+    )
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +56,29 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+
       // TODO: Switch between pages
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            'You Hungry?😋',
-            style: Theme.of(context).textTheme.displayLarge,
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          'You Hungry?😋',
+          style: Theme.of(context).textTheme.displayLarge,
         ),
-      // TODO: Add bottom navigation bar.
+      ),
+
+      // Assigns NavigationBar to bottomNavigationBar.
+      bottomNavigationBar: NavigationBar(
+        // Sets the active tab using selectedIndex.
+        selectedIndex: tab,
+        // Updates the active tab on user selection.
+        onDestinationSelected: (index) {
+          setState(() {
+            tab = index;
+          });
+        },
+        // Defines the list of tabs with appBarDestinations.
+        destinations: appBarDestinations,
+      ),
     );
   }
 }
