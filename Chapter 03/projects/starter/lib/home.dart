@@ -42,7 +42,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Define pages
+    final pages = [
+      // TODO: Replace with Category Card
+      Container(color: Colors.red),
+      // TODO: Replace with Post Card.
+      Container(color: Colors.green),
+      // TODO: Replace with Restaurant Landscape Card
+      Container(color: Colors.blue),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -57,13 +64,9 @@ class _HomeState extends State<Home> {
         ],
       ),
 
-      // TODO: Switch between pages
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          'You Hungry?😋',
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
+      body: IndexedStack(
+        index: tab,
+        children: pages,
       ),
 
       // Assigns NavigationBar to bottomNavigationBar.
