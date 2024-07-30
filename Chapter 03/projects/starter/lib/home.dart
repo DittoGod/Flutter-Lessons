@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:yummy/components/theme_button.dart';
 import 'package:yummy/components/colour_button.dart';
 import 'package:yummy/components/category_card.dart';
+import 'package:yummy/components/post_card.dart';
 import 'package:yummy/models/food_category.dart';
+import 'package:yummy/models/post.dart';
 import 'package:yummy/constants.dart';
 
 class Home extends StatefulWidget {
@@ -57,8 +59,12 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-      // TODO: Replace with Post Card.
-      Container(color: Colors.green),
+      Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: PostCard(post: posts[0]),
+        ),
+      ),
       // TODO: Replace with Restaurant Landscape Card
       Container(color: Colors.blue),
     ];
