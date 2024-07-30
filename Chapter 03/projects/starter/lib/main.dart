@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:yummy/components/theme_button.dart';
+import 'package:yummy/components/colour_button.dart';
 import 'constants.dart';
 
 void main() {
@@ -9,8 +11,6 @@ void main() {
 }
 
 class Yummy extends StatefulWidget {
-
-
   const Yummy({super.key});
 
   @override
@@ -21,21 +21,19 @@ class _YummyState extends State<Yummy> {
   // Manual theme to toggle
   ThemeMode themeMode = ThemeMode.light;
 
-  ColourSelection colorSelected = ColourSelection.pink;
+  ColourSelection colourSelected = ColourSelection.pink;
 
-  void changeTheme(bool useLightMode) {
+  void changeThemeMode(bool useLightMode) {
     setState(() {
       // Update theme mode based on user selection.
-      themeMode = useLightMode
-          ? ThemeMode.light
-          : ThemeMode.dark;
+      themeMode = useLightMode ? ThemeMode.light : ThemeMode.dark;
     });
   }
 
   void changeColour(int value) {
     setState(() {
       // Update theme colour based on user selection.
-      colorSelected = ColourSelection.values[value];
+      colourSelected = ColourSelection.values[value];
     });
   }
 
@@ -53,12 +51,12 @@ class _YummyState extends State<Yummy> {
 
       themeMode: themeMode,
       theme: ThemeData(
-        colorSchemeSeed: colorSelected.color,
+        colorSchemeSeed: colourSelected.color,
         useMaterial3: true,
         brightness: Brightness.light,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: colorSelected.color,
+        colorSchemeSeed: colourSelected.color,
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
@@ -69,7 +67,13 @@ class _YummyState extends State<Yummy> {
       // body for starts.
       home: Scaffold(
         appBar: AppBar(
-          // TODO: Add action buttons
+          actions: [
+            ThemeButton(changeThemeMode: changeThemeMode),
+            ColourButton(
+              changeColour: changeColour,
+              colourSelected: colourSelected,
+            ),
+          ],
           elevation: 4.0,
           title: const Text(
             appTitle,
