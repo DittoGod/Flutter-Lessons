@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yummy/components/theme_button.dart';
-import 'package:yummy/components/colour_button.dart';
-import 'constants.dart';
+import 'package:yummy/constants.dart';
+import 'package:yummy/home.dart';
 
 void main() {
   // Widget Initialisation: Every journey with Flutter commences with a widget.
@@ -61,31 +60,11 @@ class _YummyState extends State<Yummy> {
         brightness: Brightness.dark,
       ),
 
-      // TODO: Apply Home widget
-
-      // Scaffold defines the app's visual structure, containing an AppBar and a
-      // body for starts.
-      home: Scaffold(
-        appBar: AppBar(
-          actions: [
-            ThemeButton(changeThemeMode: changeThemeMode),
-            ColourButton(
-              changeColour: changeColour,
-              colourSelected: colourSelected,
-            ),
-          ],
-          elevation: 4.0,
-          title: const Text(
-            appTitle,
-            style: TextStyle(fontSize: 24.0),
-          ),
-        ),
-        body: const Center(
-          child: Text(
-            'You Hungry?😋',
-            style: TextStyle(fontSize: 30.0),
-          ),
-        ),
+      // Widget defines home.
+      home: Home(
+        changeTheme: changeThemeMode,
+        changeColour: changeColour,
+        colourSelected: colourSelected,
       ),
     );
   }
