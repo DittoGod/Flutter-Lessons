@@ -46,7 +46,7 @@ class _YummyState extends State<Yummy> {
     // Material Design system look and feel.
     return MaterialApp(
       title: appTitle,
-      //debugShowCheckedModeBanner: false, // Uncomment to remove Debug banner
+      debugShowCheckedModeBanner: false,
 
       themeMode: themeMode,
       theme: ThemeData(
