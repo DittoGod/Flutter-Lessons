@@ -3,8 +3,10 @@ import 'package:yummy/components/theme_button.dart';
 import 'package:yummy/components/colour_button.dart';
 import 'package:yummy/components/category_card.dart';
 import 'package:yummy/components/post_card.dart';
+import 'package:yummy/components/restaurant_landscape_card.dart';
 import 'package:yummy/models/food_category.dart';
 import 'package:yummy/models/post.dart';
+import 'package:yummy/models/restaurant.dart';
 import 'package:yummy/constants.dart';
 
 class Home extends StatefulWidget {
@@ -65,8 +67,18 @@ class _HomeState extends State<Home> {
           child: PostCard(post: posts[0]),
         ),
       ),
-      // TODO: Replace with Restaurant Landscape Card
-      Container(color: Colors.blue),
+      // Center widget ensures the card widget is centered on the screen.
+      Center(
+        // Applies a maximum width of 400 pixels to the card width
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 400),
+          // Set RestaurantLandscapeCard widget as the child, and pass the first
+          // mock restaurant to be displayed.
+          child: RestaurantLandscapeCard(
+            restaurant: restaurants[0],
+          ),
+        ),
+      ),
     ];
 
     return Scaffold(
