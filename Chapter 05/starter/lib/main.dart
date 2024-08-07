@@ -16,7 +16,7 @@ class Yummy extends StatefulWidget {
 
 class _YummyState extends State<Yummy> {
   ThemeMode themeMode = ThemeMode.light;
-  ColorSelection colorSelected = ColorSelection.pink;
+  ColourSelection colourSelected = ColourSelection.pink;
 
   void changeThemeMode(bool useLightMode) {
     setState(() {
@@ -28,7 +28,7 @@ class _YummyState extends State<Yummy> {
 
   void changeColor(int value) {
     setState(() {
-      colorSelected = ColorSelection.values[value];
+      colourSelected = ColourSelection.values[value];
     });
   }
 
@@ -41,12 +41,12 @@ class _YummyState extends State<Yummy> {
       debugShowCheckedModeBanner: false, // Uncomment to remove Debug banner
       themeMode: themeMode,
       theme: ThemeData(
-        colorSchemeSeed: colorSelected.color,
+        colorSchemeSeed: colourSelected.colour,
         useMaterial3: true,
         brightness: Brightness.light,
       ),
       darkTheme: ThemeData(
-        colorSchemeSeed: colorSelected.color,
+        colorSchemeSeed: colourSelected.colour,
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
@@ -54,7 +54,7 @@ class _YummyState extends State<Yummy> {
         appTitle: appTitle,
         changeTheme: changeThemeMode,
         changeColor: changeColor,
-        colorSelected: colorSelected,
+        colorSelected: colourSelected,
       ),
     );
   }

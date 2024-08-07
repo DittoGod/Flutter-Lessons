@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'components/color_button.dart';
+import 'components/colour_button.dart';
 import 'components/theme_button.dart';
 import 'constants.dart';
 
@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
     required this.appTitle,
   });
 
-  final ColorSelection colorSelected;
+  final ColourSelection colorSelected;
   final void Function(bool useLightMode) changeTheme;
   final void Function(int value) changeColor;
   final String appTitle;
@@ -75,9 +75,9 @@ class _HomeState extends State<Home> {
           ThemeButton(
             changeThemeMode: widget.changeTheme,
           ),
-          ColorButton(
-            changeColor: widget.changeColor,
-            colorSelected: widget.colorSelected,
+          ColourButton(
+            changeColour: widget.changeColor,
+            colourSelected: widget.colorSelected,
           ),
         ],
       ),
