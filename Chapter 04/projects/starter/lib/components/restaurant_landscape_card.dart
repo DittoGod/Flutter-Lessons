@@ -32,27 +32,35 @@ class _RestaurantLandscapeCardState extends State<RestaurantLandscapeCard> {
                 const BorderRadius.vertical(top: Radius.circular(8.0)),
             child: AspectRatio(
               aspectRatio: 2,
-              // TODO: Convert to a stack
+              // Stack widget overlays multiple elements. Here, it's used to
+              // layer a favourite button over a restaurant's image, ensuring
+              // you utilise the full space.
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // 2
+                  // The restaurants image is displayed, with a scaling set to
+                  // fill the entire container.
                   Image.asset(
                     widget.restaurant.imageUrl,
                     fit: BoxFit.cover,
                   ),
-                  // 3
+                  // The IconButton is positioned at the top-right corner of the
+                  // image, serving as the favourite action.
                   Positioned(
                     top: 4.0,
                     right: 4.0,
                     child: IconButton(
-                      // 4
+                      // The Icon displayed depends on the _isFavourite status.
+                      // A filled heart represents a favourite, while an outline
+                      // heart indicates otherwise.
                       icon: Icon(
                         _isFavourited ? Icons.favorite : Icons.favorite_border,
                       ),
                       iconSize: 30.0,
                       color: Colors.red[400],
-                      // 5
+                      // Tapping the favourite button toggles the _isFavourite
+                      // state, effectively switching between the two heart
+                      // icons. This is done via a call to setState().
                       onPressed: () {
                         setState(() {
                           _isFavourited = !_isFavourited;
