@@ -1,4 +1,4 @@
-import '../models/models.dart';
+import 'package:yummy/models/models.dart';
 
 // ExploreData serves as a data container that holds
 //list of restaurants, food categories, and friend posts.

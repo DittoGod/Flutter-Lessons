@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'components/colour_button.dart';
-import 'components/theme_button.dart';
-import 'constants.dart';
+import 'package:yummy/components/colour_button.dart';
+import 'package:yummy/components/theme_button.dart';
+import 'package:yummy/constants.dart';
 
 class Home extends StatefulWidget {
   const Home({

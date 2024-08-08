@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import 'package:yummy/constants.dart';
 
 class ColourButton extends StatelessWidget {
   const ColourButton({

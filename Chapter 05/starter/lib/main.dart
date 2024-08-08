@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
-import 'home.dart';
+import 'package:yummy/constants.dart';
+import 'package:yummy/home.dart';
 
 void main() {
   runApp(const Yummy());
