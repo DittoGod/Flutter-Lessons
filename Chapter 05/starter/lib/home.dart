@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yummy/components/colour_button.dart';
 import 'package:yummy/components/theme_button.dart';
 import 'package:yummy/constants.dart';
+import 'package:yummy/screens/screens.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -45,13 +46,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final pages = [
-      // TODO: Replace with ExplorePage
-      const Center(
-        child: Text(
-          'Explore Page',
-          style: TextStyle(fontSize: 32.0),
-        ),
-      ),
+      ExplorePage(),
       const Center(
         child: Text(
           'Order Page',
