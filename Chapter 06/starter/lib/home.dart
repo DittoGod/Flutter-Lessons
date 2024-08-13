@@ -1,68 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'models/models.dart';
-import 'screens/explore_screen.dart';
-import 'screens/recipes_screen.dart';
-import 'screens/grocery_screen.dart';
+import 'components/color_button.dart';
+import 'components/theme_button.dart';
+import 'constants.dart';
+import 'screens/explore_page.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({
+    super.key,
+    required this.changeTheme,
+    required this.changeColor,
+    required this.colorSelected,
+    required this.appTitle,
+  });
+
+  final ColorSelection colorSelected;
+  final void Function(bool useLightMode) changeTheme;
+  final void Function(int value) changeColor;
+  final String appTitle;
 
   @override
-  HomeState createState() => HomeState();
+  State<Home> createState() => _HomeState();
 }
 
-class HomeState extends State<Home> {
-  static List<Widget> pages = <Widget>[
-    ExploreScreen(),
-    RecipesScreen(),
-    const GroceryScreen(),
+class _HomeState extends State<Home> {
+  int tab = 0;
+  List<NavigationDestination> appBarDestinations = const [
+    NavigationDestination(
+      icon: Icon(Icons.home_outlined),
+      label: 'Explore',
+      selectedIcon: Icon(Icons.home),
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.list_outlined),
+      label: 'Orders',
+      selectedIcon: Icon(Icons.list),
+    ),
+    NavigationDestination(
+      icon: Icon(Icons.person_2_outlined),
+      label: 'Account',
+      selectedIcon: Icon(Icons.person),
+    )
   ];
 
   @override
   Widget build(BuildContext context) {
-    // Wraps all the widgets inside Consumer. When TabManager changes, the
-    // widgets below it will rebuild.
-    return Consumer<TabManager>(builder: (context, tabManager, child) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Fooderlich',
-            style: Theme.of(context).textTheme.titleLarge,
+    final pages = [
+      ExplorePage(),
+      const Center(
+        child: Text(
+          'Order Page',
+          style: TextStyle(fontSize: 32.0),
+        ),
+      ),
+      const Center(
+        child: Text(
+          'Account Page',
+          style: TextStyle(fontSize: 32.0),
+        ),
+      ),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.appTitle),
+        elevation: 4.0,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        actions: [
+          ThemeButton(
+            changeThemeMode: widget.changeTheme,
           ),
-        ),
-        // Displays the correct page widget, based on the current tab index.
-        body: IndexedStack(
-          index: tabManager.selectedTab,
-          children: pages,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor:
-              Theme.of(context).textSelectionTheme.selectionColor,
-          // Sets the current index of BottomNavigationBar.
-          currentIndex: tabManager.selectedTab,
-          onTap: (index) {
-            // Calls manager.goToTab() when the user taps a different tab, to
-            // notify other widgets that the index changed.
-            tabManager.goToTab(index);
-          },
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
-              label: 'Explore',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'Recipes',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'To Buy',
-            ),
-          ],
-        ),
-      );
-    });
+          ColorButton(
+            changeColor: widget.changeColor,
+            colorSelected: widget.colorSelected,
+          ),
+        ],
+      ),
+      body: IndexedStack(index: tab, children: pages),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: tab,
+        onDestinationSelected: (index) {
+          setState(() {
+            tab = index;
+          });
+        },
+        destinations: appBarDestinations,
+      ),
+    );
   }
 }
