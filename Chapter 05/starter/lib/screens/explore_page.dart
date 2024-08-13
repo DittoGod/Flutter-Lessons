@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yummy/api/mock_yummy_service.dart';
+import 'package:yummy/components/category_section.dart';
 import 'package:yummy/components/restaurant_section.dart';
 
 class ExplorePage extends StatelessWidget {
@@ -37,11 +38,7 @@ class ExplorePage extends StatelessWidget {
             // The list contains three child list view widgets.
             children: [
               RestaurantSection(restaurants: restaurants),
-              // TODO: Add CategorySection
-              Container(
-                height: 300,
-                color: Colors.green,
-              ),
+              CategorySection(categories: categories),
               // TODO: Add PostSection
               Container(
                 height: 300,
