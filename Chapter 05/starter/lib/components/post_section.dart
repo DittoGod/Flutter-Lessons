@@ -50,7 +50,7 @@ class PostSection extends StatelessWidget {
             separatorBuilder: (context, index) {
               // For every item, also create a SizedBox to space each item by 16
               // pixels.
-              return const SizedBox(height: 16);
+              return const SizedBox(height: 10);
             },
           )
         ],
