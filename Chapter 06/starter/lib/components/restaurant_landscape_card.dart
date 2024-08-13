@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:yummy/screens/restaurant_page.dart';
 
-import '../models/restaurant.dart';
+import 'package:yummy/models/restaurant.dart';
 
 class RestaurantLandscapeCard extends StatefulWidget {
   final Restaurant restaurant;
@@ -73,7 +74,20 @@ class _RestaurantLandscapeCardState extends State<RestaurantLandscapeCard> {
               style: textTheme.bodySmall,
             ),
             onTap: () {
-              // TODO: Push Restaurant Page
+              // Navigator.push starts the navigation to a new screen.
+              Navigator.push(
+                // context tells Flutter where the navigation starts from within
+                // the widget tree.
+                context,
+                // MaterialPageRoute is used to create a route with a standard
+                // transition animation.
+                MaterialPageRoute(
+                  // Navigate to RestaurantPage and pass in the current
+                  // restaurant object to be displayed.
+                  builder: (context) =>
+                      RestaurantPage(restaurant: widget.restaurant),
+                ),
+              );
             },
           ),
         ],
