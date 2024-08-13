@@ -37,7 +37,7 @@ class PostSection extends StatelessWidget {
               return PostCard(post: posts[index]);
             },
             separatorBuilder: (context, index) {
-              return const SizedBox(height: 16);
+              return const SizedBox(height: 10);
             },
           ),
         ],
