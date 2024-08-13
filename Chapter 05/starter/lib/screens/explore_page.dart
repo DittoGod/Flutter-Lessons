@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yummy/api/mock_yummy_service.dart';
+import 'package:yummy/components/restaurant_section.dart';
 
 class ExplorePage extends StatelessWidget {
   // Create a MockYummyService, to mock server responses
@@ -27,14 +28,10 @@ class ExplorePage extends StatelessWidget {
           final categories = snapshot.data?.categories ?? [];
           final posts = snapshot.data?.friendPosts ?? [];
 
-          //TODO: Replace this with Restaurant Section.
-          return const Center(
-            child: SizedBox(
-              child: Text('Show RestaurantSection'),
-            ),
-          );
+          //TODO: Wrap in a ListView
+          return RestaurantSection(restaurants: restaurants);
         } else {
-          // if the data is not ready to consume, show loading spinner.
+          // If the data is not ready to consume, show loading spinner.
           return const Center(
             child: CircularProgressIndicator(),
           );
