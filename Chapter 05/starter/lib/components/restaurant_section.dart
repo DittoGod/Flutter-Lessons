@@ -28,15 +28,34 @@ class RestaurantSection extends StatelessWidget {
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ),
-          // TODO: Add restaurant List View.
-          // Add a container, 400 pixels tall, and set the background color to
-          // grey. This container is a placeholder for the ListView of
-          // restaurants.
-          Container(
-            height: 400,
-            // TODO: Add ListView here
-            color: Colors.grey,
-          )
+          // The ListView will have a fixed height of 230 pixels. It acts as a
+          // container to constrain the height of the child.
+          SizedBox(
+            height: 230,
+            // ListView.builder widget dynamically creates a list of items based
+            // on the provided data.
+            child: ListView.builder(
+              // Configure the items in the ListView to scroll horizontally.
+              scrollDirection: Axis.horizontal,
+              // Set the itemCount to be the length of restaurants list. This
+              // determines how many items the list should render.
+              itemCount: restaurants.length,
+              // itemBuilder is a function that returns a widget for a given
+              // index od the list. It's invoked for each item in the restaurant
+              // list.
+              itemBuilder: (context, index) {
+                // Set a fixed width of 300 pixels for every restaurant card.
+                return SizedBox(
+                  width: 300,
+                  // Create a RestaurantLandScapeCard widget and pass in the
+                  // restaurant object based on the current index.
+                  child: RestaurantLandscapeCard(
+                    restaurant: restaurants[index],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
