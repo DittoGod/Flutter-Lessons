@@ -45,7 +45,9 @@ class _ItemDetailsState extends State<ItemDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(widget.item.name, style: textTheme.headlineMedium),
-              // TODO: Add Liked Badge.
+              const SizedBox(height: 16.0),
+              _mostLikedBadge(colorTheme),
+              const SizedBox(height: 16.0),
               Text(widget.item.description),
               // TODO: Add Item image.
               // TODO: Add Cart control.
@@ -55,7 +57,23 @@ class _ItemDetailsState extends State<ItemDetails> {
       ),
     );
   }
-  // TODO: Create Most Liked Badge.
+  
+  // Define a method _mostLikedBadge(), which takes in a ColorScheme. This
+  // method will create a badge to indicate whether an item is most liked.
+  Widget _mostLikedBadge(ColorScheme colorTheme) {
+    // The Align widget is used to align the badge within the parent widget.
+    return Align(
+      // Align the widget center-left.
+      alignment: Alignment.centerLeft,
+      // A Container is used to apply padding and colour.
+      child: Container(
+        padding: const EdgeInsets.all(4.0),
+        color: colorTheme.onPrimary,
+        // A Text widget is used to display the content of the badge.
+        child: const Text('#1 Most Liked'),
+      ),
+    );
+  }
   // TODO: Create Item Image.
   // TODO: Create Cart control.
 }
