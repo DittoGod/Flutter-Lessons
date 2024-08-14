@@ -25,6 +25,7 @@ class _RestaurantPageState extends State<RestaurantPage> {
   static const double largeScreenPercentage = 0.9;
   static const double maxWidth = 1000;
   static const desktopThreshold = 700;
+
   // TODO: Define Drawer Max Width
   // TODO: Define Scaffold Key
 
@@ -177,7 +178,28 @@ class _RestaurantPageState extends State<RestaurantPage> {
     );
   }
 
-  // TODO: Show Bottom Sheet
+  // Define a function _showBottomSheet() that accepts the selected menu item to
+  // display in the bottom sheet.
+  void _showBottomSheet(Item item) {
+    // When invoked, create a modal bottom sheet that slides up from the bottom.
+    showModalBottomSheet(
+      // isScrollControllable is true, to allow the bottom sheet to have dynamic
+      // height.
+      isScrollControlled: true,
+      // Pass in the current context to display the bottom sheet.
+      context: context,
+      // Constraint the bottom sheet to have a max width of 480. This is to
+      // support responsive UI on mobile or desktop.
+      constraints: const BoxConstraints(maxWidth: 480),
+      // builder() returns the details to be displayed.
+      // TODO: Replace with ItemDetails widget.
+      builder: (context) => Container(
+        color: Colors.red,
+        height: 400,
+      ),
+    );
+  }
+
   // TODO: Create Drawer
   // TODO: Open Drawer
   // TODO: Create Floating Action Button
