@@ -49,7 +49,9 @@ class _ItemDetailsState extends State<ItemDetails> {
               _mostLikedBadge(colorTheme),
               const SizedBox(height: 16.0),
               Text(widget.item.description),
-              // TODO: Add Item image.
+              const SizedBox(height: 16.0),
+              _itemImage(widget.item.imageUrl),
+              const SizedBox(height: 16.0),
               // TODO: Add Cart control.
             ],
           ),
@@ -74,6 +76,22 @@ class _ItemDetailsState extends State<ItemDetails> {
       ),
     );
   }
-  // TODO: Create Item Image.
+
+  // _itemImage() takes in an imageUrl.
+  Widget _itemImage(String imageUrl) {
+    // Apply a Container to style the image, adding a fixed height and rounded
+    // corners.
+    return Container(
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        // Set the background image.
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
   // TODO: Create Cart control.
 }
