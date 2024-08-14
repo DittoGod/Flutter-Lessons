@@ -26,9 +26,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
   static const double largeScreenPercentage = 0.9;
   static const double maxWidth = 1000;
   static const desktopThreshold = 700;
-
-  // TODO: Define Drawer Max Width
-  // TODO: Define Scaffold Key
+  static const double drawerWidth = 375.0;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   double _calculateConstrainedWidth(double screenWidth) {
     return (screenWidth > desktopThreshold
@@ -201,9 +200,33 @@ class _RestaurantPageState extends State<RestaurantPage> {
     );
   }
 
-  // TODO: Create Drawer
-  // TODO: Open Drawer
-  // TODO: Create Floating Action Button
+  Widget _buildEndDrawer() {
+    return SizedBox(
+      width: drawerWidth,
+      // TODO: Replace with Checkout page
+      child: Container(color: Colors.red),
+    );
+  }
+
+  void openDrawer() {
+    scaffoldKey.currentState!.openEndDrawer();
+  }
+
+  // The function returns a FloatingActionButton widget.
+  Widget _buildFloatingActionButton() {
+    // Instantiates a FloatingActionButton.extended, which allows the button to
+    // have both an Icon and a label.
+    return FloatingActionButton.extended(
+      // When button is pressed, openDrawer() is invoked.
+      onPressed: openDrawer,
+      // Show tooltip for accessibility.
+      tooltip: 'Cart',
+      // Set the buttons Icon to a shopping cart.
+      icon: const Icon(Icons.shopping_cart),
+      // The label displays the number of items in the cart.
+      label: Text('${widget.cartManager.items.length} Items in cart'),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,9 +234,9 @@ class _RestaurantPageState extends State<RestaurantPage> {
     final constrainedWidth = _calculateConstrainedWidth(screenWidth);
 
     return Scaffold(
-      // TODO: Add Scaffold Key
-      // TODO: Apply Drawer
-      // TODO: Apply Floating Action Button
+      key: scaffoldKey,
+      endDrawer: _buildEndDrawer(),
+      floatingActionButton: _buildFloatingActionButton(),
       body: Center(
         child: SizedBox(
           width: constrainedWidth,
