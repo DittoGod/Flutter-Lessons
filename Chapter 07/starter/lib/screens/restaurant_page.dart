@@ -122,13 +122,10 @@ class _RestaurantPageState extends State<RestaurantPage> {
     );
   }
 
-  // TODO: Replace _buildGridItem()
   Widget _buildGridItem(int index) {
     final item = widget.restaurant.items[index];
     return InkWell(
-      onTap: () {
-        // Present Bottom Sheet in the future.
-      },
+      onTap: () => _showBottomSheet(item),
       child: RestaurantItem(item: item),
     );
   }
