@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:yummy/components/item_details.dart';
 
-import '../components/restaurant_item.dart';
-import '../models/cart_manager.dart';
-import '../models/order_manager.dart';
-import '../models/restaurant.dart';
+import 'package:yummy/components/restaurant_item.dart';
+import 'package:yummy/models/cart_manager.dart';
+import 'package:yummy/models/order_manager.dart';
+import 'package:yummy/models/restaurant.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
@@ -190,9 +191,12 @@ class _RestaurantPageState extends State<RestaurantPage> {
       constraints: const BoxConstraints(maxWidth: 480),
       // builder() returns the details to be displayed.
       // TODO: Replace with ItemDetails widget.
-      builder: (context) => Container(
-        color: Colors.red,
-        height: 400,
+      builder: (context) => ItemDetails(
+        item: item,
+        cartManager: widget.cartManager,
+        quantityUpdated: () {
+          setState(() {});
+        },
       ),
     );
   }
