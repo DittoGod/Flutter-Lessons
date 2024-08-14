@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
+import 'package:yummy/components/cart_control.dart';
 import 'package:yummy/models/cart_manager.dart';
 import 'package:yummy/models/restaurant.dart';
 
@@ -52,14 +54,14 @@ class _ItemDetailsState extends State<ItemDetails> {
               const SizedBox(height: 16.0),
               _itemImage(widget.item.imageUrl),
               const SizedBox(height: 16.0),
-              // TODO: Add Cart control.
+              _addToCartControl(widget.item),
             ],
           ),
         ],
       ),
     );
   }
-  
+
   // Define a method _mostLikedBadge(), which takes in a ColorScheme. This
   // method will create a badge to indicate whether an item is most liked.
   Widget _mostLikedBadge(ColorScheme colorTheme) {
@@ -93,5 +95,33 @@ class _ItemDetailsState extends State<ItemDetails> {
       ),
     );
   }
-  // TODO: Create Cart control.
+
+  // _addToCartControl takes in the selected Item object.
+  Widget _addToCartControl(Item item) {
+    // It returns a CartControl widget.
+    return CartControl(
+      // The addToCart() callback function will return the item quantity and
+      // create a new CartItem. A CartItem requires a uniquely generated id,
+      // item name, price, and the quantity selected.
+      addToCart: (number) {
+        const uuid = Uuid();
+        final uniqueId = uuid.v4();
+        final cartItem = CartItem(
+          id: uniqueId,
+          name: item.name,
+          price: item.price,
+          quantity: number,
+        );
+        // Update the state by adding the new cart item managed by CartManager.
+        setState(() {
+          widget.cartManager.addItem(cartItem);
+          // Invoke the callback to notify the parent widget that the quantity
+          // has been updated.
+          widget.quantityUpdated();
+        });
+        // close the bottom sheet.
+        Navigator.pop(context);
+      },
+    );
+  }
 }
