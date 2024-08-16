@@ -5,6 +5,7 @@ import 'package:yummy/components/restaurant_item.dart';
 import 'package:yummy/models/cart_manager.dart';
 import 'package:yummy/models/order_manager.dart';
 import 'package:yummy/models/restaurant.dart';
+import 'package:yummy/screens/checkout_page.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
@@ -203,8 +204,26 @@ class _RestaurantPageState extends State<RestaurantPage> {
   Widget _buildEndDrawer() {
     return SizedBox(
       width: drawerWidth,
-      // TODO: Replace with Checkout page
-      child: Container(color: Colors.red),
+      // Initialise the Drawer widget that slides from from the side of the
+      // screen.
+      child: Drawer(
+        // Use CheckoutPage as the primary content of the Drawer.
+        child: CheckoutPage(
+          // Pass in cartManager to manage and display cart items.
+          cartManager: widget.cartManager,
+          // Configure the didUpdate() callback to refresh the state of the
+          // parent widget.
+          didUpdate: () {
+            setState(() {});
+          },
+          // Set onSubmit() so that, when the user taps on the submit button, it
+          // adds a new order and closes the drawer.
+          onSubmit: (order){
+            widget.ordersManager.addOrder(order);
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+        ),
+      ),
     );
   }
 
