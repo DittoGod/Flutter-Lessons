@@ -61,7 +61,7 @@ class _YummyState extends State<Yummy> {
       home: Home(
         appTitle: appTitle,
         cartManager: _cartManager,
-        ordersManager: _orderManager,
+        orderManager: _orderManager,
         changeTheme: changeThemeMode,
         changeColor: changeColor,
         colorSelected: colorSelected,

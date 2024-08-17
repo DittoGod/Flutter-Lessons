@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yummy/screens/orders_page.dart';
 
 import 'components/color_button.dart';
 import 'components/theme_button.dart';
@@ -11,7 +12,7 @@ class Home extends StatefulWidget {
   const Home({
     super.key,
     required this.cartManager,
-    required this.ordersManager,
+    required this.orderManager,
     required this.changeTheme,
     required this.changeColor,
     required this.colorSelected,
@@ -19,7 +20,7 @@ class Home extends StatefulWidget {
   });
 
   final CartManager cartManager;
-  final OrderManager ordersManager;
+  final OrderManager orderManager;
   final ColorSelection colorSelected;
   final void Function(bool useLightMode) changeTheme;
   final void Function(int value) changeColor;
@@ -54,15 +55,9 @@ class _HomeState extends State<Home> {
     final pages = [
       ExplorePage(
         cartManager: widget.cartManager,
-        orderManager: widget.ordersManager,
+        orderManager: widget.orderManager,
       ),
-      // TODO: Replace with Order Page
-      const Center(
-        child: Text(
-          'Order Page',
-          style: TextStyle(fontSize: 32.0),
-        ),
-      ),
+      OrdersPage(orderManager: widget.orderManager),
       const Center(
         child: Text(
           'Account Page',
