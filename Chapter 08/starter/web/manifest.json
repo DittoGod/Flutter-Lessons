@@ -1,11 +1,11 @@
 {
-    "name": "fooderlich",
-    "short_name": "fooderlich",
+    "name": "yummy",
+    "short_name": "yummy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Yummy is a food platform for customers to order food from a wide variety of restaruants.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
