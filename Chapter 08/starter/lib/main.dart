@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'home.dart';
-import '../models/models.dart';
-import 'screens/screens.dart';
+import 'package:go_router/go_router.dart';
+import 'package:yummy/constants.dart';
+import 'package:yummy/home.dart';
+import 'package:yummy/models/models.dart';
+import 'package:yummy/screens/screens.dart';
 
 void main() {
   runApp(const Yummy());
@@ -40,7 +41,77 @@ class _YummyState extends State<Yummy> {
   /// Manage user's orders submitted
   final OrderManager _orderManager = OrderManager();
 
-  // TODO: Initialize GoRouter
+  // Initialises an instance of GoRouter, a declarative router for Flutter.
+  late final _router = GoRouter(
+      // Sets the initialLocation that the app will navigate to. When the user
+      // opens the app they will navigate to the login page.
+      initialLocation: '/login',
+      // TODO: Add App Redirect
+      // routes contains a list of possible routes for the application. Each route
+      // will typically be defined with a path, builder or redirect function.
+      routes: [
+        GoRoute(
+          // The route is set to /login. When the URL or path matches /login go
+          // to the login route.
+          path: '/login',
+          // The builder() function creates the widget to display when the user
+          // hits a route.
+          builder: (context, state) =>
+              // The function returns a login widget.
+              LoginPage(
+            // The Login widget takes a callback called onLogIn which returns
+            // the user credentials.
+            onLogIn: (Credentials credentials) async {
+              // Use the credentials to login.
+              _auth
+                  .signIn(credentials.username, credentials.password)
+                  // If the login is successful, navigate to the path /0,
+                  // which is the first tab.
+                  .then((_) => context.go('/${YummyTab.home.value}'));
+            },
+          ),
+        ),
+        // The route is set to /. When the URL or path matches / go to the home
+        // route. :tab is a path parameter used to switch between different tabs.
+        GoRoute(
+          path: '/:tab',
+          builder: (context, state) {
+            // The builder function returns a Home widget.
+            return Home(
+              // Pass auth for handling authentication.
+              auth: _auth,
+              // Use cartManager to manage the items that the user has added to
+              // the cart.
+              cartManager: _cartManager,
+              // Use ordersManager to manage all the orders submitted.
+              ordersManager: _orderManager,
+              // Set a callback to handle user changes from light to dark mode.
+              changeTheme: changeThemeMode,
+              // Set a callback to handle user app colour theme changes.
+              changeColor: changeColor,
+              // Pass the currently selected colour theme.
+              colorSelected: colorSelected,
+              // Set the current tab, default to 0 if the path parameter is
+              // absent or not an integer.
+              tab: int.tryParse(state.pathParameters['tab'] ?? '') ?? 0,
+            );
+          },
+            //
+            routes: [
+              // TODO: Add Restaurant Route.
+            ],
+        ),
+      ],
+      errorPageBuilder: (context, state) {
+        return MaterialPage(
+          key: state.pageKey,
+          child: Scaffold(
+            body: Center(
+              child: Text(state.error.toString()),
+            ),
+          ),
+        );
+      });
 
   // TODO: Add Redirect Handler
 
@@ -60,9 +131,18 @@ class _YummyState extends State<Yummy> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Replace with Router
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, // Uncomment to remove Debug banner
+    // MaterialApp.router() is used for apps with a navigator that uses
+    // declarative routing approach. It takes a router configuration rather than
+    // a set of routes.
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      // routeConfig reads _router to know about navigation properties. This
+      // will help the MaterialApp to set up the essential parts of a router.
+      // Under the hood, it will configure routerDelegate,
+      // routeInformationParser, and routeInformationProvider.
+      routerConfig: _router,
+      // TODO: Add custom scroll behaviour.
+      title: 'Yummy',
       scrollBehavior: CustomScrollBehavior(),
       themeMode: themeMode,
       theme: ThemeData(
@@ -75,7 +155,6 @@ class _YummyState extends State<Yummy> {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      home: LoginPage(onLogIn: (credentials) {}),
     );
   }
 }
