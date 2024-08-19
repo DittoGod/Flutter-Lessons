@@ -46,7 +46,7 @@ class _YummyState extends State<Yummy> {
       // Sets the initialLocation that the app will navigate to. When the user
       // opens the app they will navigate to the login page.
       initialLocation: '/login',
-      // TODO: Add App Redirect
+      redirect: _appRedirect,
       // routes contains a list of possible routes for the application. Each route
       // will typically be defined with a path, builder or redirect function.
       routes: [
@@ -96,10 +96,10 @@ class _YummyState extends State<Yummy> {
               tab: int.tryParse(state.pathParameters['tab'] ?? '') ?? 0,
             );
           },
-            //
-            routes: [
-              // TODO: Add Restaurant Route.
-            ],
+          //
+          routes: [
+            // TODO: Add Restaurant Route.
+          ],
         ),
       ],
       errorPageBuilder: (context, state) {
@@ -113,7 +113,31 @@ class _YummyState extends State<Yummy> {
         );
       });
 
-  // TODO: Add Redirect Handler
+  // _appRedirect() is an asynchronous function that returns a future, optional
+  // string. It takes in a build context and the go router state.
+  Future<String?> _appRedirect(
+      BuildContext context, GoRouterState state) async {
+    // Get the login status.
+    final loggedIn = await _auth.loggedIn;
+    // Check if the user is currently on the login page.
+    final isOnLoginPage = state.matchedLocation == '/login';
+
+    // If the user is not logged in yet, redirect to the login page.
+    // Go to /login if the user is not signed in.
+    if(!loggedIn) {
+      return '/login';
+    }
+    // If the user s logged in and is on the login page, redirect to the home
+    // page.
+    // Go to root if the user is already signed in.
+    else if (loggedIn && isOnLoginPage) {
+      return '/${YummyTab.home.value}';
+    }
+
+    // Don't redirect if no condition is met.
+    // no redirect
+    return null;
+  }
 
   void changeThemeMode(bool useLightMode) {
     setState(() {
