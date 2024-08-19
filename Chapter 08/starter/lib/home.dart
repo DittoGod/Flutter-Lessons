@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'constants.dart';
 import '../components/components.dart';
 import '../models/models.dart';
@@ -56,16 +57,18 @@ class _HomeState extends State<Home> {
       ),
       MyOrdersPage(orderManager: widget.ordersManager),
       AccountPage(
-          onLogOut: (logout) async {
-            // TODO: Logout and go to login
-          },
-          user: User(
-              firstName: 'Stef',
-              lastName: 'P',
-              role: 'Flutteristas',
-              profileImageUrl: 'assets/profile_pics/person_stef.jpeg',
-              points: 100,
-              darkMode: true))
+        onLogOut: (logout) async {
+          // TODO: Logout and go to login
+        },
+        user: User(
+          firstName: 'Stef',
+          lastName: 'P',
+          role: 'Flutteristas',
+          profileImageUrl: 'assets/profile_pics/person_stef.jpeg',
+          points: 100,
+          darkMode: true,
+        ),
+      ),
     ];
 
     return Scaffold(
@@ -86,7 +89,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: widget.tab,
         onDestinationSelected: (index) {
-          // TODO: Navigate to specific tab
+          context.go('/$index');
         },
         destinations: appBarDestinations,
       ),
