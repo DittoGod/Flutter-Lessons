@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
       MyOrdersPage(orderManager: widget.ordersManager),
       AccountPage(
         onLogOut: (logout) async {
-          // TODO: Logout and go to login
+          widget.auth.signOut().then((value) => context.go('/login'));
         },
         user: User(
           firstName: 'Stef',
