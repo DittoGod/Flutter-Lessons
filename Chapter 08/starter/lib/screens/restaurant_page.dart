@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import '../components/components.dart';
-import '../models/models.dart';
-import 'checkout_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:yummy/components/components.dart';
+import 'package:yummy/constants.dart';
+import 'package:yummy/models/models.dart';
+import 'package:yummy/screens/checkout_page.dart';
 
 class RestaurantPage extends StatefulWidget {
   final Restaurant restaurant;
@@ -178,7 +180,8 @@ class _RestaurantPageState extends State<RestaurantPage> {
         },
         onSubmit: (order) {
           widget.ordersManager.addOrder(order);
-          // TODO: Navigate to Orders Page
+          context.pop();
+          context.go('/${YummyTab.orders.value}');
         },
       )),
     );
