@@ -98,7 +98,26 @@ class _YummyState extends State<Yummy> {
           },
           //
           routes: [
-            // TODO: Add Restaurant Route.
+            GoRoute(
+              // The route is defined with the path restaurant/:id. The :id part
+              // is a path parameter, which allows for dynamic routing based on
+              // the restaurant's ID.
+              path: 'restaurant/:id',
+              builder: (context, state) {
+                // Within the builder() function, you extract the id from
+                // pathParameters.
+                final id = int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
+                // Get the restaurant based on the 'id'.
+                final restaurant = restaurants[id];
+                // Return the RestaurantPage widget with the specific restaurant,
+                // cart and order manager.
+                return RestaurantPage(
+                  restaurant: restaurant,
+                  cartManager: _cartManager,
+                  ordersManager: _orderManager,
+                );
+              },
+            ),
           ],
         ),
       ],
@@ -124,7 +143,7 @@ class _YummyState extends State<Yummy> {
 
     // If the user is not logged in yet, redirect to the login page.
     // Go to /login if the user is not signed in.
-    if(!loggedIn) {
+    if (!loggedIn) {
       return '/login';
     }
     // If the user s logged in and is on the login page, redirect to the home
