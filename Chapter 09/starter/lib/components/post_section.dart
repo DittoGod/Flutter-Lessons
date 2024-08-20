@@ -23,7 +23,7 @@ class PostSection extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 110.0,
+            height: 120.0,
             child: ListView.separated(
               primary: false,
               shrinkWrap: true,
