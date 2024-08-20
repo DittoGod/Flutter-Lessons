@@ -4,17 +4,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../network/service_interface.dart';
-import '../widgets/common.dart';
-import '../../data/models/models.dart';
-import '../../network/model_response.dart';
-import '../../network/query_result.dart';
-import '../bookmarks/bookmarks.dart';
-import '../recipe_card.dart';
-import '../recipes/recipe_details.dart';
-import '../theme/colors.dart';
-import '../widgets/custom_dropdown.dart';
-// TODO: Add imports
+import 'package:recipes/network/service_interface.dart';
+import 'package:recipes/ui/widgets/common.dart';
+import 'package:recipes/data/models/models.dart';
+import 'package:recipes/network/model_response.dart';
+import 'package:recipes/network/query_result.dart';
+import 'package:recipes/ui/bookmarks/bookmarks.dart';
+import 'package:recipes/ui/recipe_card.dart';
+import 'package:recipes/ui/recipes/recipe_details.dart';
+import 'package:recipes/ui/theme/colors.dart';
+import 'package:recipes/ui/widgets/custom_dropdown.dart';
+import 'package:recipes/providers.dart';
 
 
 enum ListType { all, bookmarks }
@@ -27,7 +27,7 @@ class RecipeList extends ConsumerStatefulWidget {
 }
 
 class _RecipeListState extends ConsumerState<RecipeList> {
-  // TODO Add Search Index Key
+  static const String prefSearchKey = 'previousSearches';
 
   late TextEditingController searchTextController;
   final ScrollController _scrollController = ScrollController();
@@ -83,11 +83,27 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   }
 
   void savePreviousSearches() async {
-    // TODO Save Current Index
+    // ref.read() extracts the preferences from the provider that was set up.
+    final prefs = ref.read(sharedPrefProvider);
+    // Saves the list of previous searches using the prefSearchKey key.
+    prefs.setStringList(prefSearchKey, previousSearches);
   }
 
   void getPreviousSearches() async {
-    // TODO Get Current Index
+    // Extract the preferences object.
+    final prefs = ref.read(sharedPrefProvider);
+    // Check if the preference for the saved list exists.
+    if (prefs.containsKey(prefSearchKey)) {
+      // Get the list of previous searches.
+      final searches = prefs.getStringList(prefSearchKey);
+      // If the list is not null, set the previous searches, otherwise
+      // initialise an empty list.
+      if (searches != null) {
+        previousSearches = searches;
+      } else {
+        previousSearches = <String>[];
+      }
+    }
   }
 
   @override
@@ -244,7 +260,14 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   }
 
   void startSearch(String value) {
+    // Checks the input value to make sure it's not empty.
+    if (value.isEmpty) {
+      return;
+    }
+    // Tell the system to update the widgets by calling setState().
     setState(() {
+      // Clear the current search list and reset the currentCount,
+      // currentStartPosition, and currentEndPosition.
       currentSearchList.clear();
       newDataRequired = true;
       currentCount = 0;
@@ -252,8 +275,12 @@ class _RecipeListState extends ConsumerState<RecipeList> {
       currentStartPosition = 0;
       hasMore = false;
       value = value.trim();
+      // Check to ensure the search text hasn't already been added to the
+      // previous search list.
       if (!previousSearches.contains(value)) {
+        // Add the search item to the previous search list.
         previousSearches.add(value);
+        // Save the new list of previous searches.
         savePreviousSearches();
       }
     });
