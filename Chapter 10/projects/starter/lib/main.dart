@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lumberdash/lumberdash.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'ui/main_screen.dart';
-import 'ui/theme/theme.dart';
-import 'utils.dart';
+import 'package:recipes/ui/main_screen.dart';
+import 'package:recipes/ui/theme/theme.dart';
+import 'package:recipes/utils.dart';
+import 'package:recipes/providers.dart';
 import 'package:logging/logging.dart' as system_log;
 
 Future<void> main() async {
@@ -18,8 +20,18 @@ Future<void> main() async {
     await DesktopWindow.setWindowSize(const Size(600, 600));
     await DesktopWindow.setMinWindowSize(const Size(260, 600));
   }
-  // TODO Add Shared Preferences
-  runApp(const ProviderScope(child: MyApp()));
+  // Create an instance of the SharedPreferences library.
+  final sharedPrefs = await SharedPreferences.getInstance();
+  // RiverPod requires a ProviderScope above the app where the providers are
+  // provided. This allows for the functionalities like shared_preferences to be
+  // available to other parts of the app.
+  runApp(ProviderScope(
+    overrides: [
+      // Override the sharedPrefProvider value with the shared pref created.
+      sharedPrefProvider.overrideWithValue(sharedPrefs),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 void _setupLogging() {
@@ -28,7 +40,7 @@ void _setupLogging() {
   ]);
   system_log.Logger.root.level = system_log.Level.ALL;
   system_log.Logger.root.onRecord.listen((rec) {
-      debugPrint('${rec.level.name}: ${rec.time}: ${rec.message}');
+    debugPrint('${rec.level.name}: ${rec.time}: ${rec.message}');
   });
 }
 
@@ -68,8 +80,10 @@ class _MyAppState extends State<MyApp> {
                 SystemNavigator.pop();
               });
             },
-            shortcut:
-                const SingleActivator(LogicalKeyboardKey.keyQ, meta: true),
+            shortcut: const SingleActivator(
+              LogicalKeyboardKey.keyQ,
+              meta: true,
+            ),
           ),
         ])
       ],
