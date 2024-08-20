@@ -1,30 +1,37 @@
-import 'dart:convert';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../../network/recipe_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../colors.dart';
-import '../recipe_card.dart';
-import '../widgets/custom_dropdown.dart';
-import 'recipe_details.dart';
-import '../../network/recipe_service.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../network/service_interface.dart';
+import '../widgets/common.dart';
 
-class RecipeList extends StatefulWidget {
-  const RecipeList({Key? key}) : super(key: key);
+import '../../data/models/models.dart';
+import '../../network/model_response.dart';
+import '../../network/query_result.dart';
+import '../../providers.dart';
+import '../bookmarks/bookmarks.dart';
+import '../recipe_card.dart';
+import '../recipes/recipe_details.dart';
+import '../theme/colors.dart';
+import '../widgets/custom_dropdown.dart';
+
+enum ListType { all, bookmarks }
+
+class RecipeList extends ConsumerStatefulWidget {
+  const RecipeList({super.key});
 
   @override
-  State createState() => _RecipeListState();
+  ConsumerState createState() => _RecipeListState();
 }
 
-class _RecipeListState extends State<RecipeList> {
+class _RecipeListState extends ConsumerState<RecipeList> {
   static const String prefSearchKey = 'previousSearches';
 
   late TextEditingController searchTextController;
   final ScrollController _scrollController = ScrollController();
-
-  List<APIHits> currentSearchList = [];
+  List<Recipe> currentSearchList = [];
   int currentCount = 0;
   int currentStartPosition = 0;
   int currentEndPosition = 20;
@@ -33,60 +40,55 @@ class _RecipeListState extends State<RecipeList> {
   bool loading = false;
   bool inErrorState = false;
   List<String> previousSearches = <String>[];
+  ListType currentType = ListType.all;
+  Future<RecipeResponse>? currentResponse;
+  bool newDataRequired = true;
 
   @override
   void initState() {
     super.initState();
     getPreviousSearches();
+
     searchTextController = TextEditingController(text: '');
     _scrollController.addListener(() {
-      final triggerFetchMoreSize =
-          0.7 * _scrollController.position.maxScrollExtent;
+      if (currentType == ListType.all) {
+        final triggerFetchMoreSize =
+            0.7 * _scrollController.position.maxScrollExtent;
 
-      if (_scrollController.position.pixels > triggerFetchMoreSize) {
-        if (hasMore &&
-            currentEndPosition < currentCount &&
-            !loading &&
-            !inErrorState) {
-          setState(() {
-            loading = true;
-            currentStartPosition = currentEndPosition;
-            currentEndPosition =
-                min(currentStartPosition + pageCount, currentCount);
-          });
+        if (_scrollController.position.pixels > triggerFetchMoreSize) {
+          if (hasMore &&
+              currentEndPosition < currentCount &&
+              !loading &&
+              !inErrorState) {
+            setState(
+              () {
+                loading = true;
+                newDataRequired = true;
+                currentStartPosition = currentEndPosition;
+                currentEndPosition =
+                    min(currentStartPosition + pageCount, currentCount);
+              },
+            );
+          }
         }
       }
     });
   }
 
-  // The method is asynchronous and returns a Future. It takes a query and the
-  // start and the end positions of the recipe data, which from and to
-  // represent, respectively.
-  Future<APIRecipeQuery> getRecipeData(String query, int from, int to) async {
-    // You define recipeJson, which stores the results from getRecipes() after
-    // it finishes.
-    final recipeJson = await RecipeService().getRecipes(query, from, to);
-    // The variable recipeMap uses Dart’s json.decode() to decode the string
-    // into a map of type Map<String, dynamic>.
-    final recipeMap = json.decode(recipeJson);
-    // You use the JSON parsing method you created in the previous chapter to
-    // create an APIRecipeQuery model.
-    return APIRecipeQuery.fromJson(recipeMap);
-  }
-
   @override
   void dispose() {
     searchTextController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
   void savePreviousSearches() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = ref.read(sharedPrefProvider);
     prefs.setStringList(prefSearchKey, previousSearches);
   }
 
   void getPreviousSearches() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = ref.read(sharedPrefProvider);
     if (prefs.containsKey(prefSearchKey)) {
       final searches = prefs.getStringList(prefSearchKey);
       if (searches != null) {
@@ -99,14 +101,72 @@ class _RecipeListState extends State<RecipeList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            _buildSearchCard(),
-            _buildRecipeLoader(context),
+    return switch (currentType) {
+      ListType.all => buildRecipeList(),
+      ListType.bookmarks => buildBookmarkList()
+    };
+  }
+
+  Widget buildRecipeList() {
+    return buildScrollList([
+      _buildHeader(),
+      _buildTypePicker(),
+      _buildSearchCard(),
+    ], _buildRecipeLoader(context));
+  }
+
+  Widget buildScrollList(List<Widget> topList, Widget bottomWidget) {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        ...topList,
+        ScrollConfiguration(
+          behavior: const ScrollBehavior().copyWith(
+            dragDevices: {PointerDeviceKind.mouse, PointerDeviceKind.touch},
+            physics: const ClampingScrollPhysics(),
+          ),
+          child: Expanded(
+            child: CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                SliverPadding(
+                  padding: allPadding8,
+                  sliver: bottomWidget,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildBookmarkList() {
+    return buildScrollList([
+      _buildHeader(),
+      _buildTypePicker(),
+    ], const Bookmarks());
+  }
+
+  Widget _buildHeader() {
+    return SizedBox(
+      height: 160.0,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        child: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                color: lightGreen,
+              ),
+            ),
+            Center(
+              child: Image.asset(
+                'assets/images/background2.png',
+                fit: BoxFit.cover,
+              ),
+            ),
           ],
         ),
       ),
@@ -132,16 +192,16 @@ class _RecipeListState extends State<RecipeList> {
                 }
               },
             ),
-            const SizedBox(
-              width: 6.0,
-            ),
+            sizedW8,
             Expanded(
               child: Row(
                 children: <Widget>[
                   Expanded(
                       child: TextField(
                     decoration: const InputDecoration(
-                        border: InputBorder.none, hintText: 'Search'),
+                      border: InputBorder.none,
+                      hintText: 'Search',
+                    ),
                     autofocus: false,
                     textInputAction: TextInputAction.done,
                     onSubmitted: (value) {
@@ -149,6 +209,14 @@ class _RecipeListState extends State<RecipeList> {
                     },
                     controller: searchTextController,
                   )),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        searchTextController.text = '';
+                      });
+                    },
+                  ),
                   PopupMenuButton<String>(
                     icon: const Icon(
                       Icons.arrow_drop_down,
@@ -185,12 +253,16 @@ class _RecipeListState extends State<RecipeList> {
   }
 
   void startSearch(String value) {
+    if (value.isEmpty) {
+      return;
+    }
     setState(() {
       currentSearchList.clear();
+      newDataRequired = true;
       currentCount = 0;
       currentEndPosition = pageCount;
       currentStartPosition = 0;
-      hasMore = true;
+      hasMore = false;
       value = value.trim();
       if (!previousSearches.contains(value)) {
         previousSearches.add(value);
@@ -199,65 +271,71 @@ class _RecipeListState extends State<RecipeList> {
     });
   }
 
-  Widget _buildRecipeLoader(BuildContext context) {
-    // You check there are at least three characters in the search term. You can
-    // change this value, but you probably won’t get good results with only one
-    // or two characters.
+  Sliver _buildRecipeLoader(BuildContext context) {
     if (searchTextController.text.length < 3) {
-      return Container();
+      return emptySliverWidget;
     }
-    // FutureBuilder determines the current state of the Future that
-    // APIRecipeQuery returns. It then builds a widget that displays
-    // asynchronous data while it’s loading.
-    return FutureBuilder<APIRecipeQuery>(
-      // You assign the Future that getRecipeData() returns to future.
-      future: getRecipeData(
-        searchTextController.text.trim(),
-        currentStartPosition,
-        currentEndPosition,
-      ),
-      // builder is required; it returns a widget.
+    return FutureBuilder<RecipeResponse>(
+      future: fetchData(),
       builder: (context, snapshot) {
-        // You check the connectionState. If the state is done, you can update
-        // the UI with the results or an error.
         if (snapshot.connectionState == ConnectionState.done) {
-          // If there’s an error, return a simple Text element that displays
-          // the error message.
           if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-                textAlign: TextAlign.center,
-                textScaler: const TextScaler.linear(1.3),
+       
+            return SliverFillRemaining(
+              child: Center(
+                child: Text(
+                  snapshot.error.toString(),
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 1.3,
+                ),
               ),
             );
           }
-          // If there’s no error, process the query results and add query.hits
-          // to currentSearchList.
+
           loading = false;
-          final query = snapshot.data;
-          inErrorState = false;
-          if (query != null) {
-            currentCount = query.count;
-            hasMore = query.more;
-            currentSearchList.addAll(query.hits);
-            // If you aren’t at the end of the data, set currentEndPosition to
-            // the current location.
-            if (query.to < currentEndPosition) {
-              currentEndPosition = query.to;
-            }
+          final result = snapshot.data;
+          // Hit an error
+          if (result is Error) {
+            const errorMessage = 'Problems getting data';
+            return const SliverFillRemaining(
+              child: Center(
+                child: Text(
+                  errorMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+            );
           }
-          // Return _buildRecipeList() using currentSearchList.
-          return _buildRecipeList(context, currentSearchList);
-        }
-        // You check that snapshot.connectionState isn’t done.
-        else {
-          // If the current count is 0, show a progress indicator.
+          final query = (result as Success).value as QueryResult;
+          inErrorState = false;
+          currentCount = query.totalResults;
+          hasMore = query.totalResults > (query.offset + query.number);
+          currentSearchList.addAll(query.recipes);
+          currentEndPosition =
+              min(query.totalResults, currentEndPosition + query.number);
           if (currentCount == 0) {
-            // Show a loading indicator while waiting for the recipes
-            return const Center(child: CircularProgressIndicator());
+            return const SliverFillRemaining(
+              child: Center(
+                child: Text(
+                  'No Results',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+              ),
+            );
           } else {
-            // Otherwise, just show the current list.
+            return _buildRecipeList(context, currentSearchList);
+          }
+        } else {
+          if (currentCount == 0) {
+            // Show a loading indicator while waiting for the movies
+            return const SliverFillRemaining(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else {
             return _buildRecipeList(context, currentSearchList);
           }
         }
@@ -265,56 +343,92 @@ class _RecipeListState extends State<RecipeList> {
     );
   }
 
-  // This method returns a widget and takes recipeListContext and a list of
-  // recipe hits.
-  Widget _buildRecipeList(BuildContext recipeListContext, List<APIHits> hits) {
-    // You use MediaQuery to get the device’s screen size. You then set a fixed
-    // item height and create two columns of cards whose width is half the
-    // device’s width.
-    final size = MediaQuery.of(context).size;
-    const itemHeight = 310;
-    final itemWidth = size.width / 2;
-    // You return a widget that’s flexible in width and height.
-    return Flexible(
-      // GridView is similar to ListView, but it allows for some interesting
-      // combinations of rows and columns. In this case, you use
-      // GridView.builder() because you know the number of items and you’ll use
-      // an itemBuilder.
-      child: GridView.builder(
-        // You use _scrollController, created in initState(), to detect when
-        // scrolling gets to about 70% from the bottom.
-        controller: _scrollController,
-        // The SliverGridDelegateWithFixedCrossAxisCount delegate has two
-        // columns and sets the aspect ratio.
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: (itemWidth / itemHeight),
-        ),
-        // The length of your grid items depends on the number of items in the
-        // hits list.
-        itemCount: hits.length,
-        // itemBuilder now uses _buildRecipeCard() to return a card for each
-        // recipe. _buildRecipeCard() retrieves the recipe from the hits list by
-        // using hits[index].recipe.
-        itemBuilder: (BuildContext context, int index) {
-          return _buildRecipeCard(recipeListContext, hits, index);
-        },
-      ),
+  Future<RecipeResponse> fetchData() async {
+    if (!newDataRequired && currentResponse != null) {
+      return currentResponse!;
+    }
+    newDataRequired = false;
+
+    // TODO: Load Recipes
+/*
+    final recipeService = ref.watch(serviceProvider);
+    currentResponse = recipeService.queryRecipes(
+        searchTextController.text.trim(), currentStartPosition, pageCount);
+*/
+
+    return currentResponse ?? Future.error('No data found');
+  }
+
+  Widget _buildRecipeList(
+      BuildContext recipeListContext, List<Recipe> recipes) {
+    return SliverLayoutBuilder(
+      builder: (BuildContext context, SliverConstraints constraints) {
+        final numColumns = max(1, constraints.crossAxisExtent ~/ 264);
+        return SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            childCount: recipes.length,
+            (BuildContext context, int index) {
+              return _buildRecipeCard(
+                recipeListContext,
+                recipes,
+                index,
+              );
+            },
+          ),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: numColumns, mainAxisExtent: 264),
+        );
+      },
     );
   }
 
   Widget _buildRecipeCard(
-      BuildContext topLevelContext, List<APIHits> hits, int index) {
-    final recipe = hits[index].recipe;
+    BuildContext topLevelContext,
+    List<Recipe> recipes,
+    int index,
+  ) {
+    final recipe = recipes[index];
     return GestureDetector(
       onTap: () {
         Navigator.push(topLevelContext, MaterialPageRoute(
           builder: (context) {
-            return const RecipeDetails();
+            return RecipeDetails(recipe: recipe);
           },
         ));
       },
       child: recipeCard(recipe),
+    );
+  }
+
+  Widget _buildTypePicker() {
+    return IntrinsicWidth(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SegmentedButton<ListType>(
+              segments: const [
+                ButtonSegment<ListType>(
+                    value: ListType.all, label: Text('All'), enabled: true),
+                ButtonSegment<ListType>(
+                    value: ListType.bookmarks,
+                    label: Text('Bookmarks'),
+                    enabled: true),
+              ],
+              selected: {currentType},
+              onSelectionChanged: (Set<ListType> newSelection) {
+                setState(() {
+                  // By default there is only a single segment that can be
+                  // selected at one time, so its value is always the first
+                  // item in the selected set.
+                  currentType = newSelection.first;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
