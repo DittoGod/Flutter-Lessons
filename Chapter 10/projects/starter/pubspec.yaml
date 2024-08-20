@@ -45,6 +45,7 @@ dependencies:
   platform: ^3.1.0
   freezed_annotation: ^2.4.1
   flutter_svg: ^2.0.7
+  shared_preferences: ^2.2.0
   flutter_html: ^3.0.0-beta.2
   lumberdash: ^3.0.0
   colorize_lumberdash: ^3.0.0
