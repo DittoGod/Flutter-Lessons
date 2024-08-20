@@ -193,7 +193,9 @@ class _$_Recipe implements _Recipe {
 
   @override
   String toString() {
-    return 'Recipe(id: $id, label: $label, image: $image, description: $description, bookmarked: $bookmarked, ingredients: $ingredients)';
+    return 'Recipe(id: $id, label: $label, image: $image, '
+        'description: $description, bookmarked: $bookmarked, '
+        'ingredients: $ingredients)';
   }
 
   @override
