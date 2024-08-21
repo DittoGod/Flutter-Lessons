@@ -1,0 +1,103 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'spoonacular_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+SpoonacularResults _$SpoonacularResultsFromJson(Map<String, dynamic> json) =>
+    SpoonacularResults(
+      results: (json['results'] as List<dynamic>)
+          .map((e) => SpoonacularResults.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      offset: (json['offset'] as num).toInt(),
+      number: (json['number'] as num).toInt(),
+      totalResults: (json['totalResults'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$SpoonacularResultsToJson(SpoonacularResults instance) =>
+    <String, dynamic>{
+      'results': instance.results,
+      'offset': instance.offset,
+      'number': instance.number,
+      'totalResults': instance.totalResults,
+    };
+
+SpoonacularResults _$SpoonacularResultsFromJson(Map<String, dynamic> json) =>
+    SpoonacularResults(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String,
+      image: json['image'] as String,
+      imageType: json['imageType'] as String,
+    );
+
+Map<String, dynamic> _$SpoonacularResultsToJson(SpoonacularResults instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'image': instance.image,
+      'imageType': instance.imageType,
+    };
+
+SpoonacularRecipe _$SpoonacularRecipeFromJson(Map<String, dynamic> json) =>
+    SpoonacularRecipe(
+      preparationMinutes: (json['preparationMinutes'] as num).toInt(),
+      cookingMinutes: (json['cookingMinutes'] as num).toInt(),
+      sourceName: json['sourceName'] as String,
+      extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
+          .map((e) => ExtendedIngredient.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String,
+      readyInMinutes: (json['readyInMinutes'] as num).toInt(),
+      servings: (json['servings'] as num).toInt(),
+      sourceUrl: json['sourceUrl'] as String,
+      image: json['image'] as String,
+      imageType: json['imageType'] as String,
+      summary: json['summary'] as String,
+      instructions: json['instructions'] as String?,
+    );
+
+Map<String, dynamic> _$SpoonacularRecipeToJson(SpoonacularRecipe instance) =>
+    <String, dynamic>{
+      'preparationMinutes': instance.preparationMinutes,
+      'cookingMinutes': instance.cookingMinutes,
+      'sourceName': instance.sourceName,
+      'extendedIngredients': instance.extendedIngredients,
+      'id': instance.id,
+      'title': instance.title,
+      'readyInMinutes': instance.readyInMinutes,
+      'servings': instance.servings,
+      'sourceUrl': instance.sourceUrl,
+      'image': instance.image,
+      'imageType': instance.imageType,
+      'summary': instance.summary,
+      'instructions': instance.instructions,
+    };
+
+ExtendedIngredient _$ExtendedIngredientFromJson(Map<String, dynamic> json) =>
+    ExtendedIngredient(
+      id: (json['id'] as num).toInt(),
+      aisle: json['aisle'] as String?,
+      image: json['image'] as String?,
+      name: json['name'] as String,
+      nameClean: json['nameClean'] as String?,
+      original: json['original'] as String,
+      originalName: json['originalName'] as String?,
+      amount: (json['amount'] as num).toDouble(),
+      unit: json['unit'] as String,
+    );
+
+Map<String, dynamic> _$ExtendedIngredientToJson(ExtendedIngredient instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'aisle': instance.aisle,
+      'image': instance.image,
+      'name': instance.name,
+      'nameClean': instance.nameClean,
+      'original': instance.original,
+      'originalName': instance.originalName,
+      'amount': instance.amount,
+      'unit': instance.unit,
+    };
