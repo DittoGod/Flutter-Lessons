@@ -154,10 +154,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget mobileLayout() {
     return Scaffold(
       bottomNavigationBar: createBottomNavigationBar(),
-      body: SafeArea(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: pageList,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SafeArea(
+          child: IndexedStack(
+            index: _selectedIndex,
+            children: pageList,
+          ),
         ),
       ),
     );
