@@ -1,7 +1,52 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:recipes/data/models/models.dart';
 
-// TODO: Add SpoonacularResults class
+part 'spoonacular_model.g.dart';
 
-/*
+@JsonSerializable()
+class SpoonacularResults {
+  List<SpoonacularResult> results;
+  int offset;
+  int number;
+  int totalResults;
+
+  SpoonacularResults({
+    required this.results,
+    required this.offset,
+    required this.number,
+    required this.totalResults,
+  });
+
+  factory SpoonacularResults.fromJson(Map<String, dynamic> json) =>
+      _$SpoonacularResultsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SpoonacularResultsToJson(this);
+}
+
+// This marks the class as JsonSerializable.
+@JsonSerializable()
+class SpoonacularResult {
+  // Defines several fields: id, title, image, and imageType.
+  int id;
+  String title;
+  String image;
+  String imageType;
+
+  // Defines a constructor that accepts these fields.
+  SpoonacularResult({
+    required this.id,
+    required this.title,
+    required this.image,
+    required this.imageType,
+  });
+
+  // Adds the methods for JSON Serialization.
+  factory SpoonacularResult.fromJson(Map<String, dynamic> json) =>
+      _$SpoonacularResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SpoonacularResultToJson(this);
+}
+
 
 @JsonSerializable()
 class SpoonacularRecipe {
@@ -109,4 +154,3 @@ Recipe spoonacularRecipeToRecipe(SpoonacularRecipe spoonacularRecipe) {
     ingredients: ingredients,
   );
 }
-*/
