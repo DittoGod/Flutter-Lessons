@@ -47,7 +47,6 @@ class SpoonacularResult {
   Map<String, dynamic> toJson() => _$SpoonacularResultToJson(this);
 }
 
-
 @JsonSerializable()
 class SpoonacularRecipe {
   int preparationMinutes;
@@ -79,11 +78,11 @@ class SpoonacularRecipe {
     required this.summary,
     this.instructions,
   });
+
   factory SpoonacularRecipe.fromJson(Map<String, dynamic> json) =>
       _$SpoonacularRecipeFromJson(json);
 
   Map<String, dynamic> toJson() => _$SpoonacularRecipeToJson(this);
-
 }
 
 @JsonSerializable()
@@ -109,13 +108,12 @@ class ExtendedIngredient {
     required this.amount,
     required this.unit,
   });
+
   factory ExtendedIngredient.fromJson(Map<String, dynamic> json) =>
       _$ExtendedIngredientFromJson(json);
 
   Map<String, dynamic> toJson() => _$ExtendedIngredientToJson(this);
-
 }
-
 
 /// Methods to convert network recipes into local recipes
 List<Recipe> spoonacularResultsToRecipe(SpoonacularResults result) {

@@ -1,21 +1,24 @@
 import 'dart:math';
 import 'dart:ui';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../network/service_interface.dart';
-import '../widgets/common.dart';
+import 'package:flutter/services.dart';
+import 'package:recipes/network/service_interface.dart';
+import 'package:recipes/ui/widgets/common.dart';
+import 'package:recipes/network/spoonacular_model.dart';
 
-import '../../data/models/models.dart';
-import '../../network/model_response.dart';
-import '../../network/query_result.dart';
-import '../../providers.dart';
-import '../bookmarks/bookmarks.dart';
-import '../recipe_card.dart';
-import '../recipes/recipe_details.dart';
-import '../theme/colors.dart';
-import '../widgets/custom_dropdown.dart';
+import 'package:recipes/data/models/models.dart';
+import 'package:recipes/network/model_response.dart';
+import 'package:recipes/network/query_result.dart';
+import 'package:recipes/providers.dart';
+import 'package:recipes/ui/bookmarks/bookmarks.dart';
+import 'package:recipes/ui/recipe_card.dart';
+import 'package:recipes/ui/recipes/recipe_details.dart';
+import 'package:recipes/ui/theme/colors.dart';
+import 'package:recipes/ui/widgets/custom_dropdown.dart';
 
 enum ListType { all, bookmarks }
 
@@ -280,7 +283,6 @@ class _RecipeListState extends ConsumerState<RecipeList> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-       
             return SliverFillRemaining(
               child: Center(
                 child: Text(
@@ -349,12 +351,30 @@ class _RecipeListState extends ConsumerState<RecipeList> {
     }
     newDataRequired = false;
 
-    // TODO: Load Recipes
-/*
+    /*
+    // rootBundle is from the services page and allows the loading of data from
+    // the assets directory.
+    final jsonString = await rootBundle.loadString('assets/recipes1.json');
+    // Decode the JSON string and convert it to a SpoonacularResults class.
+    final spoonacularResults = SpoonacularResults.fromJson(
+      jsonDecode(jsonString),
+    );
+    // Convert that result into a list of recipes.
+    final recipes = spoonacularResultsToRecipe(spoonacularResults);
+    // Create a new query result that contains the results.
+    final apiQueryResults = QueryResult(
+      offset: spoonacularResults.offset,
+      number: spoonacularResults.number,
+      totalResults: spoonacularResults.totalResults,
+      recipes: recipes,
+    );
+    // Return a Success response.
+    currentResponse = Future.value(Success(apiQueryResults));
+     */
+
     final recipeService = ref.watch(serviceProvider);
     currentResponse = recipeService.queryRecipes(
         searchTextController.text.trim(), currentStartPosition, pageCount);
-*/
 
     return currentResponse ?? Future.error('No data found');
   }

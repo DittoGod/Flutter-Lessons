@@ -1,9 +1,12 @@
 import 'dart:math';
+import 'dart:convert';
 
-import '../data/models/recipe.dart';
-import '../network/model_response.dart';
-import '../network/query_result.dart';
-import '../network/service_interface.dart';
+import 'package:flutter/services.dart';
+import 'package:recipes/data/models/recipe.dart';
+import 'package:recipes/network/model_response.dart';
+import 'package:recipes/network/query_result.dart';
+import 'package:recipes/network/service_interface.dart';
+import 'package:recipes/network/spoonacular_model.dart';
 
 class MockService implements ServiceInterface {
   late QueryResult _currentRecipes1;
@@ -18,7 +21,6 @@ class MockService implements ServiceInterface {
   }
 
   Future loadRecipes() async {
-    /*
     // Recipe List 1
     var jsonString = await rootBundle.loadString('assets/recipes1.json');
     var spoonacularResults =
@@ -48,7 +50,6 @@ class MockService implements ServiceInterface {
         SpoonacularRecipe.fromJson(jsonDecode(jsonString));
     spoonacularRecipe.id = recipes[0].id!;
     recipeDetails = spoonacularRecipeToRecipe(spoonacularRecipe);
-     */
   }
 
   @override
@@ -60,15 +61,15 @@ class MockService implements ServiceInterface {
     switch (nextRecipe.nextInt(2)) {
       case 0:
         return Future.value(
-            Success<QueryResult>(_currentRecipes1),
+          Success<QueryResult>(_currentRecipes1),
         );
       case 1:
         return Future.value(
-            Success<QueryResult>(_currentRecipes2),
+          Success<QueryResult>(_currentRecipes2),
         );
       default:
         return Future.value(
-            Success<QueryResult>(_currentRecipes1),
+          Success<QueryResult>(_currentRecipes1),
         );
     }
   }
@@ -76,7 +77,7 @@ class MockService implements ServiceInterface {
   @override
   Future<RecipeDetailsResponse> queryRecipe(String id) {
     return Future.value(
-        Success<Recipe>(recipeDetails),
+      Success<Recipe>(recipeDetails),
     );
   }
 }
