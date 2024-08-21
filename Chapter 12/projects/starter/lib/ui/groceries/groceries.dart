@@ -7,7 +7,7 @@ import '../widgets/common.dart';
 import '../widgets/ingredient_card.dart';
 
 class GroceryList extends ConsumerStatefulWidget {
-  const GroceryList({Key? key}) : super(key: key);
+  const GroceryList({super.key});
 
   @override
   ConsumerState<GroceryList> createState() => _GroceryListState();
