@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:recipes/mock_service/mock_service.dart';
+import 'package:recipes/network/spoonacular_service.dart';
+// import 'package:recipes/mock_service/mock_service.dart';
 import 'package:recipes/providers.dart';
 import 'package:recipes/ui/main_screen.dart';
 import 'package:recipes/ui/theme/theme.dart';
@@ -23,7 +24,7 @@ Future<void> main() async {
     await DesktopWindow.setMinWindowSize(const Size(260, 600));
   }
   final sharedPrefs = await SharedPreferences.getInstance();
-  final service = await MockService.create();
+  final service = SpoonacularService();
   runApp(ProviderScope(overrides: [
     sharedPrefProvider.overrideWithValue(sharedPrefs),
     serviceProvider.overrideWithValue(service),

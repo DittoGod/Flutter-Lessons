@@ -350,6 +350,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
     final recipeService = ref.watch(serviceProvider);
     currentResponse = recipeService.queryRecipes(
         searchTextController.text.trim(), currentStartPosition, pageCount);
+    print(currentResponse.toString());
     return currentResponse ?? Future.error('No data found');
   }
 
