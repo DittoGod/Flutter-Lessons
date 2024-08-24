@@ -6,16 +6,16 @@ part of 'ingredient.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Ingredient _$$_IngredientFromJson(Map<String, dynamic> json) =>
-    _$_Ingredient(
-      id: json['id'] as int?,
-      recipeId: json['recipeId'] as int?,
+_$IngredientImpl _$$IngredientImplFromJson(Map<String, dynamic> json) =>
+    _$IngredientImpl(
+      id: (json['id'] as num?)?.toInt(),
+      recipeId: (json['recipeId'] as num?)?.toInt(),
       name: json['name'] as String?,
       amount: (json['amount'] as num?)?.toDouble(),
       weight: (json['weight'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$_IngredientToJson(_$_Ingredient instance) =>
+Map<String, dynamic> _$$IngredientImplToJson(_$IngredientImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'recipeId': instance.recipeId,

@@ -11,9 +11,9 @@ SpoonacularResults _$SpoonacularResultsFromJson(Map<String, dynamic> json) =>
       results: (json['results'] as List<dynamic>)
           .map((e) => SpoonacularResult.fromJson(e as Map<String, dynamic>))
           .toList(),
-      offset: json['offset'] as int,
-      number: json['number'] as int,
-      totalResults: json['totalResults'] as int,
+      offset: (json['offset'] as num).toInt(),
+      number: (json['number'] as num).toInt(),
+      totalResults: (json['totalResults'] as num).toInt(),
     );
 
 Map<String, dynamic> _$SpoonacularResultsToJson(SpoonacularResults instance) =>
@@ -26,7 +26,7 @@ Map<String, dynamic> _$SpoonacularResultsToJson(SpoonacularResults instance) =>
 
 SpoonacularResult _$SpoonacularResultFromJson(Map<String, dynamic> json) =>
     SpoonacularResult(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       image: json['image'] as String,
       imageType: json['imageType'] as String,
@@ -42,16 +42,16 @@ Map<String, dynamic> _$SpoonacularResultToJson(SpoonacularResult instance) =>
 
 SpoonacularRecipe _$SpoonacularRecipeFromJson(Map<String, dynamic> json) =>
     SpoonacularRecipe(
-      preparationMinutes: json['preparationMinutes'] as int,
-      cookingMinutes: json['cookingMinutes'] as int,
+      preparationMinutes: (json['preparationMinutes'] as num).toInt(),
+      cookingMinutes: (json['cookingMinutes'] as num).toInt(),
       sourceName: json['sourceName'] as String,
       extendedIngredients: (json['extendedIngredients'] as List<dynamic>)
           .map((e) => ExtendedIngredient.fromJson(e as Map<String, dynamic>))
           .toList(),
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
-      readyInMinutes: json['readyInMinutes'] as int,
-      servings: json['servings'] as int,
+      readyInMinutes: (json['readyInMinutes'] as num).toInt(),
+      servings: (json['servings'] as num).toInt(),
       sourceUrl: json['sourceUrl'] as String,
       image: json['image'] as String,
       imageType: json['imageType'] as String,
@@ -78,7 +78,7 @@ Map<String, dynamic> _$SpoonacularRecipeToJson(SpoonacularRecipe instance) =>
 
 ExtendedIngredient _$ExtendedIngredientFromJson(Map<String, dynamic> json) =>
     ExtendedIngredient(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       aisle: json['aisle'] as String?,
       image: json['image'] as String?,
       name: json['name'] as String,
