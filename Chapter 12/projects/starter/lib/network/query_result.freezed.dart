@@ -25,12 +25,8 @@ mixin _$QueryResult {
   int get totalResults => throw _privateConstructorUsedError;
   List<Recipe> get recipes => throw _privateConstructorUsedError;
 
-  /// Serializes this QueryResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $QueryResultCopyWith<QueryResult> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,8 +50,6 @@ class _$QueryResultCopyWithImpl<$Res, $Val extends QueryResult>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,8 +98,6 @@ class __$$QueryResultImplCopyWithImpl<$Res>
       _$QueryResultImpl _value, $Res Function(_$QueryResultImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,14 +171,12 @@ class _$QueryResultImpl implements _QueryResult {
             const DeepCollectionEquality().equals(other._recipes, _recipes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, offset, number, totalResults,
       const DeepCollectionEquality().hash(_recipes));
 
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$QueryResultImplCopyWith<_$QueryResultImpl> get copyWith =>
@@ -218,11 +208,8 @@ abstract class _QueryResult implements QueryResult {
   int get totalResults;
   @override
   List<Recipe> get recipes;
-
-  /// Create a copy of QueryResult
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$QueryResultImplCopyWith<_$QueryResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

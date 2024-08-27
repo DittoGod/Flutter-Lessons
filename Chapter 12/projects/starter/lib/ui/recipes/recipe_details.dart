@@ -38,7 +38,7 @@ class _RecipeDetailsState extends ConsumerState<RecipeDetails> {
     final response = await ref
         .read(serviceProvider)
         .queryRecipe(widget.recipe.id.toString());
-    final result = response;
+    final result = response.body;
     if (result is Success<Recipe>) {
       final body = result.value;
       recipeDetail = body;
@@ -83,7 +83,7 @@ class _RecipeDetailsState extends ConsumerState<RecipeDetails> {
   }
 
   void readRecipe(AsyncSnapshot<RecipeDetailsResponse> snapshot) {
-    final result = snapshot.data;
+    final result = snapshot.data?.body;
     if (result is Success<Recipe>) {
       final body = result.value;
       recipeDetail = body;

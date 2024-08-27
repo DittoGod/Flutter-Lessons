@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 import 'dart:ui';
 
@@ -292,20 +293,30 @@ class _RecipeListState extends ConsumerState<RecipeList> {
           }
 
           loading = false;
-          final result = snapshot.data;
-          // Hit an error
-          if (result is Error) {
-            const errorMessage = 'Problems getting data';
-            return const SliverFillRemaining(
+
+          if (false == snapshot.data?.isSuccessful) {
+            var errorMessage = 'Problems getting data.';
+            if (snapshot.data?.error != null && snapshot.data?.error is LinkedHashMap) {
+              final map = snapshot.data?.error as LinkedHashMap;
+              errorMessage = map['message'];
+            }
+            return SliverFillRemaining(
               child: Center(
                 child: Text(
                   errorMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18.0),
+                  style: const TextStyle(fontSize: 18.0),
                 ),
               ),
             );
           }
+
+          final result = snapshot.data?.body;
+          if (result == null || result is Error) {
+            inErrorState = true;
+            return _buildRecipeList(context, currentSearchList);
+          }
+
           final query = (result as Success).value as QueryResult;
           inErrorState = false;
           currentCount = query.totalResults;
@@ -350,8 +361,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
     final recipeService = ref.watch(serviceProvider);
     currentResponse = recipeService.queryRecipes(
         searchTextController.text.trim(), currentStartPosition, pageCount);
-    print(currentResponse.toString());
-    return currentResponse ?? Future.error('No data found');
+    return currentResponse!;
   }
 
   Widget _buildRecipeList(
