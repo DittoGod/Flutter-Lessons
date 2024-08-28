@@ -21,7 +21,7 @@ import '../widgets/custom_dropdown.dart';
 enum ListType { all, bookmarks }
 
 class RecipeList extends ConsumerStatefulWidget {
-  const RecipeList({Key? key}) : super(key: key);
+  const RecipeList({super.key});
 
   @override
   ConsumerState createState() => _RecipeListState();
@@ -62,7 +62,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
               !loading &&
               !inErrorState) {
             setState(
-                  () {
+              () {
                 loading = true;
                 newDataRequired = true;
                 currentStartPosition = currentEndPosition;
@@ -254,6 +254,9 @@ class _RecipeListState extends ConsumerState<RecipeList> {
   }
 
   void startSearch(String value) {
+    if (value.isEmpty) {
+      return;
+    }
     setState(() {
       currentSearchList.clear();
       newDataRequired = true;
@@ -290,9 +293,9 @@ class _RecipeListState extends ConsumerState<RecipeList> {
           }
 
           loading = false;
-          // Hit an error
+
           if (false == snapshot.data?.isSuccessful) {
-            var errorMessage = 'Problems getting data';
+            var errorMessage = 'Problems getting data.';
             if (snapshot.data?.error != null &&
                 snapshot.data?.error is LinkedHashMap) {
               final map = snapshot.data?.error as LinkedHashMap;
@@ -308,11 +311,13 @@ class _RecipeListState extends ConsumerState<RecipeList> {
               ),
             );
           }
+
           final result = snapshot.data?.body;
           if (result == null || result is Error) {
             inErrorState = true;
             return _buildRecipeList(context, currentSearchList);
           }
+
           final query = (result as Success).value as QueryResult;
           inErrorState = false;
           currentCount = query.totalResults;
@@ -377,7 +382,9 @@ class _RecipeListState extends ConsumerState<RecipeList> {
             },
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: numColumns, mainAxisExtent: 264),
+            crossAxisCount: numColumns,
+            mainAxisExtent: 264,
+          ),
         );
       },
     );

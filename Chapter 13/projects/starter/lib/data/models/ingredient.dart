@@ -10,8 +10,8 @@ class Ingredient with _$Ingredient {
       {int? id,
         int? recipeId,
         String? name,
-        double? amount
-      }) = _Ingredient;
+        double? amount,
+        double? weight}) = _Ingredient;
 
   // Create a Ingredient from JSON data
   factory Ingredient.fromJson(Map<String, dynamic> json) =>

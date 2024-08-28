@@ -7,7 +7,7 @@ import '../widgets/common.dart';
 import '../widgets/ingredient_card.dart';
 
 class GroceryList extends ConsumerStatefulWidget {
-  const GroceryList({Key? key}) : super(key: key);
+  const GroceryList({super.key});
 
   @override
   ConsumerState<GroceryList> createState() => _GroceryListState();
@@ -39,6 +39,7 @@ class _GroceryListState extends ConsumerState<GroceryList> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Add Repository for ingredients
     return Scaffold(
       body: Column(
         children: [
@@ -72,8 +73,6 @@ class _GroceryListState extends ConsumerState<GroceryList> {
   }
 
   Widget buildNeedHaveList() {
-    // TODO: Add Repository 1
-
     final needListIndexes = <int, bool>{};
     final haveListIndexes = <int, bool>{};
     final ingredients = currentIngredients;
@@ -111,7 +110,6 @@ class _GroceryListState extends ConsumerState<GroceryList> {
   }
 
   Widget buildIngredientList() {
-    // TODO: Add Repository 2
     if (searching) {
       startSearch(searchTextController.text);
       return ingredientList(searchIngredients, checkBoxValues, true);

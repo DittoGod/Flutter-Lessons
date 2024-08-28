@@ -36,7 +36,6 @@ class MemoryRepository with ChangeNotifier implements Repository {
 
   @override
   int insertRecipe(Recipe recipe) {
-    // TODO: Update insertRecipe()
     _currentRecipes.add(recipe);
     insertIngredients(recipe.ingredients);
     notifyListeners();
@@ -46,7 +45,6 @@ class MemoryRepository with ChangeNotifier implements Repository {
   @override
   List<int> insertIngredients(List<Ingredient> ingredients) {
     if (ingredients.isNotEmpty) {
-      // TODO: Update insertIngredients()
       _currentIngredients.addAll(ingredients);
     }
     notifyListeners();
@@ -55,7 +53,6 @@ class MemoryRepository with ChangeNotifier implements Repository {
 
   @override
   void deleteRecipe(Recipe recipe) {
-    // TODO: Update deleteRecipe()
     _currentRecipes.remove(recipe);
     if (recipe.id != null) {
       deleteRecipeIngredients(recipe.id!);

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   ConsumerState createState() => _MainScreenState();
@@ -40,7 +40,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       setState(() {
         final index = prefs.getInt(prefSelectedIndexKey);
         if (index != null) {
-          // TODO: Update getCurrentIndex()
           _selectedIndex = index;
         }
       });
@@ -49,7 +48,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
   void _onItemTapped(int index) {
     setState(() {
-      // TODO: Update _onItemTapped()
       _selectedIndex = index;
     });
     saveCurrentIndex();
@@ -82,7 +80,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     _onItemTapped(index);
                   },
                   labelType: NavigationRailLabelType.all,
-                  // TODO: Update largeLayout() 1
                   selectedIndex: _selectedIndex,
                   backgroundColor: selectedColor,
                   selectedIconTheme: IconTheme.of(context)
@@ -103,7 +100,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               return Container(
                 color: Colors.white,
                 child: IndexedStack(
-                  // TODO: Update largeLayout() 2
                   index: _selectedIndex,
                   children: pageList,
                 ),
@@ -130,7 +126,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         icon: SvgPicture.asset(
           'assets/images/icon_recipe.svg',
           colorFilter: ColorFilter.mode(
-              // TODO: Update getRailNavigations() 1
               _selectedIndex == 0 ? selectedColor : Colors.black,
               BlendMode.srcIn),
           semanticsLabel: 'Recipes',
@@ -144,7 +139,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         icon: SvgPicture.asset(
           'assets/images/shopping_cart.svg',
           colorFilter: ColorFilter.mode(
-              // TODO: Update getRailNavigations() 2
               _selectedIndex == 0 ? selectedColor : Colors.black,
               BlendMode.srcIn),
           semanticsLabel: 'Groceries',
@@ -162,7 +156,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       bottomNavigationBar: createBottomNavigationBar(),
       body: SafeArea(
         child: IndexedStack(
-          // TODO: Update mobileLayout()
           index: _selectedIndex,
           children: pageList,
         ),
@@ -176,7 +169,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     final unSelectedItemColor = isDarkMode ? Colors.white : Colors.grey;
     final backgroundColor =
         isDarkMode ? darkBackgroundColor : smallCardBackgroundColor;
-    // TODO: Add index
     return BottomNavigationBar(
       backgroundColor: backgroundColor,
       currentIndex: _selectedIndex,

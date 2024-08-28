@@ -6,12 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lumberdash/lumberdash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'network/spoonacular_service.dart';
-import 'providers.dart';
-import 'ui/main_screen.dart';
-import 'ui/theme/theme.dart';
-import 'utils.dart';
+import 'package:recipes/network/spoonacular_service.dart';
+// import 'package:recipes/mock_service/mock_service.dart';
+import 'package:recipes/providers.dart';
+import 'package:recipes/ui/main_screen.dart';
+import 'package:recipes/ui/theme/theme.dart';
+import 'package:recipes/utils.dart';
 import 'package:logging/logging.dart' as system_log;
+
 
 Future<void> main() async {
   _setupLogging();
@@ -23,12 +25,10 @@ Future<void> main() async {
   }
   final sharedPrefs = await SharedPreferences.getInstance();
   final service = SpoonacularService.create();
-  runApp(ProviderScope(
-    overrides: [
-      sharedPrefProvider.overrideWithValue(sharedPrefs),
-      serviceProvider.overrideWithValue(service),
-    ],
-      child: const MyApp()));
+  runApp(ProviderScope(overrides: [
+    sharedPrefProvider.overrideWithValue(sharedPrefs),
+    serviceProvider.overrideWithValue(service),
+  ], child: const MyApp()));
 }
 
 void _setupLogging() {

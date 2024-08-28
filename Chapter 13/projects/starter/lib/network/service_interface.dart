@@ -1,8 +1,8 @@
-import 'package:chopper/chopper.dart';
 
-import '../data/models/recipe.dart';
-import 'model_response.dart';
-import 'query_result.dart';
+import 'package:recipes/data/models/recipe.dart';
+import 'package:recipes/network/model_response.dart';
+import 'package:recipes/network/query_result.dart';
+import 'package:chopper/chopper.dart';
 
 typedef RecipeResponse = Response<Result<QueryResult>>;
 typedef RecipeDetailsResponse = Response<Result<Recipe>>;
@@ -22,3 +22,4 @@ abstract class ServiceInterface {
       String id,
       );
 }
+
