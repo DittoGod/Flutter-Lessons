@@ -296,7 +296,8 @@ class _RecipeListState extends ConsumerState<RecipeList> {
 
           if (false == snapshot.data?.isSuccessful) {
             var errorMessage = 'Problems getting data.';
-            if (snapshot.data?.error != null && snapshot.data?.error is LinkedHashMap) {
+            if (snapshot.data?.error != null &&
+                snapshot.data?.error is LinkedHashMap) {
               final map = snapshot.data?.error as LinkedHashMap;
               errorMessage = map['message'];
             }
@@ -381,7 +382,9 @@ class _RecipeListState extends ConsumerState<RecipeList> {
             },
           ),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: numColumns, mainAxisExtent: 264),
+            crossAxisCount: numColumns,
+            mainAxisExtent: 264,
+          ),
         );
       },
     );
