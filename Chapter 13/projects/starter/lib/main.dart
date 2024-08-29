@@ -7,7 +7,6 @@ import 'package:lumberdash/lumberdash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:recipes/network/spoonacular_service.dart';
-// import 'package:recipes/mock_service/mock_service.dart';
 import 'package:recipes/providers.dart';
 import 'package:recipes/ui/main_screen.dart';
 import 'package:recipes/ui/theme/theme.dart';
