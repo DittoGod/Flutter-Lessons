@@ -22,8 +22,11 @@ Future<void> main() async {
     await DesktopWindow.setWindowSize(const Size(600, 600));
     await DesktopWindow.setMinWindowSize(const Size(260, 600));
   }
+  // Get Instance of the SharedPreferences library.
   final sharedPrefs = await SharedPreferences.getInstance();
+  // Create a SpoonacularService.
   final service = SpoonacularService.create();
+  // Override the definitions above with these newly created instances.
   runApp(ProviderScope(overrides: [
     sharedPrefProvider.overrideWithValue(sharedPrefs),
     serviceProvider.overrideWithValue(service),
