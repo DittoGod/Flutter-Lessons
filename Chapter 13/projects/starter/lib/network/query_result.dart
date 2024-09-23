@@ -17,3 +17,4 @@ class QueryResult with _$QueryResult {
     required List<Recipe> recipes,
   }) = _QueryResult;
 }
+

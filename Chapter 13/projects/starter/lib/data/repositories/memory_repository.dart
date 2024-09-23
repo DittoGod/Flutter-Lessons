@@ -1,12 +1,11 @@
 import 'dart:core';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/current_recipe_data.dart';
+import '../models/models.dart';
+import 'repository.dart';
 
-import 'package:recipes/data/models/models.dart';
-import 'package:recipes/data/repositories/repository.dart';
-import 'package:recipes/data/models/current_recipe_data.dart';
-
-class MemoryRepository extends Notifier<CurrentRecipeData> implements Repository {
+class MemoryRepository extends Notifier<CurrentRecipeData>
+    implements Repository {
   @override
   CurrentRecipeData build() {
     const currentRecipeData = CurrentRecipeData();
@@ -31,7 +30,7 @@ class MemoryRepository extends Notifier<CurrentRecipeData> implements Repository
   @override
   List<Ingredient> findRecipeIngredients(int recipeId) {
     final recipe =
-        state.currentRecipes.firstWhere((recipe) => recipe.id == recipeId);
+    state.currentRecipes.firstWhere((recipe) => recipe.id == recipeId);
     final recipeIngredients = state.currentIngredients
         .where((ingredient) => ingredient.recipeId == recipe.id)
         .toList();
@@ -52,15 +51,14 @@ class MemoryRepository extends Notifier<CurrentRecipeData> implements Repository
   List<int> insertIngredients(List<Ingredient> ingredients) {
     if (ingredients.isNotEmpty) {
       state = state.copyWith(
-        currentIngredients: [...state.currentIngredients, ...ingredients],
-      );
+          currentIngredients: [...state.currentIngredients, ...ingredients]);
     }
     return <int>[];
   }
 
   @override
   void deleteRecipe(Recipe recipe) {
-    final updatedList  = [...state.currentRecipes];
+    final updatedList = [...state.currentRecipes];
     updatedList.remove(recipe);
     state = state.copyWith(currentRecipes: updatedList);
     if (recipe.id != null) {

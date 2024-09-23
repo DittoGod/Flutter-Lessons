@@ -83,6 +83,7 @@ class SpoonacularConverter implements Converter {
       // instance of Error.
       chopperLogger.warning(e);
       final error = Error<InnerType>(Exception(e.toString()));
+      print('EXTRA: ${e.toString()}');
       return Response(response.base, null, error: error);
     }
   }

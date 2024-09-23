@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
+
+import '../data/models/recipe.dart';
+import '../network/model_response.dart';
+import '../network/query_result.dart';
+import '../network/service_interface.dart';
+import '../network/spoonacular_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:chopper/chopper.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:recipes/data/models/recipe.dart';
-import 'package:recipes/network/model_response.dart';
-import 'package:recipes/network/query_result.dart';
-import 'package:recipes/network/service_interface.dart';
-import 'package:recipes/network/spoonacular_model.dart';
 
 class MockService implements ServiceInterface {
   late QueryResult _currentRecipes1;
@@ -26,7 +27,7 @@ class MockService implements ServiceInterface {
     // Recipe List 1
     var jsonString = await rootBundle.loadString('assets/recipes1.json');
     var spoonacularResults =
-        SpoonacularResults.fromJson(jsonDecode(jsonString));
+    SpoonacularResults.fromJson(jsonDecode(jsonString));
     var recipes = spoonacularResultsToRecipe(spoonacularResults);
     var apiQueryResults = QueryResult(
         offset: spoonacularResults.offset,
@@ -49,17 +50,17 @@ class MockService implements ServiceInterface {
     // Recipe Details
     jsonString = await rootBundle.loadString('assets/recipe_details.json');
     final spoonacularRecipe =
-        SpoonacularRecipe.fromJson(jsonDecode(jsonString));
+    SpoonacularRecipe.fromJson(jsonDecode(jsonString));
     spoonacularRecipe.id = recipes[0].id!;
     recipeDetails = spoonacularRecipeToRecipe(spoonacularRecipe);
   }
 
   @override
   Future<RecipeResponse> queryRecipes(
-    String query,
-    int offset,
-    int number,
-  ) {
+      String query,
+      int offset,
+      int number,
+      ) {
     switch (nextRecipe.nextInt(2)) {
       case 0:
         return Future.value(
