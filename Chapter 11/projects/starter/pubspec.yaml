@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.5.0
+  sdk: ^3.8.0
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,13 +38,13 @@ dependencies:
 
   logging: ^1.2.0
   auto_size_text: ^3.0.0
-  flutter_adaptive_scaffold: ^0.1.6
+  flutter_adaptive_scaffold: ^0.3.3+1
   desktop_window: ^0.4.0
   path: ^1.8.3
   cached_network_image: ^3.2.3
-  flutter_slidable: ^3.0.0
+  flutter_slidable: ^4.0.3
   platform: ^3.1.0
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^3.1.0
   flutter_svg: ^2.0.7
   shared_preferences: ^2.2.0
   flutter_html: ^3.0.0-beta.2
@@ -52,7 +52,7 @@ dependencies:
   colorize_lumberdash: ^3.0.0
   path_provider: ^2.0.15
   flutter_riverpod: ^2.3.6
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
 
   menubar:
     git:
@@ -67,14 +67,14 @@ dev_dependencies:
 
   build_runner: ^2.4.6
   json_serializable: ^6.7.1
-  freezed: ^2.4.1
+  freezed: ^3.2.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

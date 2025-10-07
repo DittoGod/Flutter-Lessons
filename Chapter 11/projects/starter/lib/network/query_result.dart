@@ -16,4 +16,26 @@ class QueryResult with _$QueryResult {
     required int totalResults,
     required List<Recipe> recipes,
   }) = _QueryResult;
+
+  // @override
+  // // TODO: implement number
+  // int get number => throw UnimplementedError();
+  //
+  // @override
+  // // TODO: implement offset
+  // int get offset => throw UnimplementedError();
+  //
+  // @override
+  // // TODO: implement recipes
+  // List<Recipe> get recipes => throw UnimplementedError();
+  //
+  // @override
+  // Map<String, dynamic> toJson() {
+  //   // TODO: implement toJson
+  //   throw UnimplementedError();
+  // }
+  //
+  // @override
+  // // TODO: implement totalResults
+  // int get totalResults => throw UnimplementedError();
 }

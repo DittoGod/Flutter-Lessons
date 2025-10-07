@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -15,6 +16,7 @@ import 'package:recipes/ui/recipes/recipe_details.dart';
 import 'package:recipes/ui/theme/colors.dart';
 import 'package:recipes/ui/widgets/custom_dropdown.dart';
 import 'package:recipes/providers.dart';
+import 'package:recipes/network/spoonacular_model.dart';
 
 
 enum ListType { all, bookmarks }
