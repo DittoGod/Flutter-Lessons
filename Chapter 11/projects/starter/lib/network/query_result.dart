@@ -6,7 +6,7 @@ part 'query_result.freezed.dart';
 part 'query_result.g.dart';
 
 @freezed
-class QueryResult with _$QueryResult {
+abstract class QueryResult with _$QueryResult {
   factory QueryResult.fromJson(Map<String, dynamic> json) =>
       _$QueryResultFromJson(json);
 

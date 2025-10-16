@@ -4,8 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recipes/network/service_interface.dart';
 import 'package:recipes/ui/widgets/common.dart';
 import 'package:recipes/network/spoonacular_model.dart';
@@ -370,6 +370,7 @@ class _RecipeListState extends ConsumerState<RecipeList> {
     );
     // Return a Success response.
     currentResponse = Future.value(Success(apiQueryResults));
+
      */
 
     final recipeService = ref.watch(serviceProvider);
